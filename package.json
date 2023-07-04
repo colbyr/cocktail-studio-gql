@@ -2,12 +2,6 @@
   "name": "cocktail-studio-gql",
   "module": "index.ts",
   "type": "module",
-  "devDependencies": {
-    "bun-types": "^0.6.0"
-  },
-  "peerDependencies": {
-    "typescript": "^5.0.0"
-  },
   "dependencies": {
     "@apollo/server": "^4.7.5",
     "graphql": "^16.7.1",
