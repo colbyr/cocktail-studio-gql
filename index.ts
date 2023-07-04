@@ -3,6 +3,11 @@ import { startStandaloneServer } from '@apollo/server/standalone';
 import { makeSchema, queryType } from 'nexus';
 import { join } from "path";
 
+const POSTGRES_URL = process.env.POSTGRES_URL
+if (!POSTGRES_URL) {
+  throw new Error('`process.env.POSTGRES_URL` not set');
+}
+
 const PORT = process.env.PORT ? parseInt(process.env.PORT) : 4000;
 
 const QueryType = queryType({
