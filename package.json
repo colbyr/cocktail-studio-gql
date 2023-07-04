@@ -9,6 +9,10 @@
     "typescript": "^5.1.6"
   },
   "scripts": {
-    "start": "ts-node index.ts"
+    "develop": "nodemon",
+    "start": "ts-node --transpileOnly index.ts"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
   }
 }
