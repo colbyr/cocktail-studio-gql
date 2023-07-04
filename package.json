@@ -1,0 +1,11 @@
+{
+  "name": "cocktail-studio-gql",
+  "module": "index.ts",
+  "type": "module",
+  "devDependencies": {
+    "bun-types": "^0.6.0"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  }
+}
