@@ -3,6 +3,8 @@ import { startStandaloneServer } from '@apollo/server/standalone';
 import { makeSchema, queryType } from 'nexus';
 import { join } from "path";
 
+const PORT = process.env.PORT ? parseInt(process.env.PORT) : 4000;
+
 const QueryType = queryType({
   definition(t) {
       t.string("hello", {
@@ -32,7 +34,7 @@ const server = new ApolloServer({
 //  2. installs your ApolloServer instance as middleware
 //  3. prepares your app to handle incoming requests
 startStandaloneServer(server, {
-  listen: { port: 4000 },
+  listen: { port: PORT },
 }).then(({url}) => {
   console.log(`🚀  Server ready at: ${url}`);
 })
