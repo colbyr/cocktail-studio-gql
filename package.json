@@ -1,7 +1,6 @@
 {
   "name": "cocktail-studio-gql",
-  "module": "index.ts",
-  "type": "module",
+  "main": "index.ts",
   "dependencies": {
     "@apollo/server": "^4.7.5",
     "graphql": "^16.7.1",
