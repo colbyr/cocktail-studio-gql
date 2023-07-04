@@ -1,3 +1,4 @@
 {
-  "exec": "yarn run-env ./index.ts"
+  "exec": "yarn run-env ./index.ts",
+  "ext": "ts"
 }
