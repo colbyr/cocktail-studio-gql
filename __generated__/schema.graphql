@@ -3,6 +3,11 @@
 
 
 type Query {
-  hello: String!
+  me: User!
   recipeCount: Int!
+}
+
+type User {
+  email: String!
+  id: ID!
 }

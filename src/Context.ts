@@ -2,7 +2,8 @@ import { Pool } from "pg"
 import { Env } from "./Env"
 
 export type Context = {
-  pool: Pool
+  pool: Pool;
+  userId: string;
 }
 
 export async function context(): Promise<Context> {
@@ -16,6 +17,7 @@ export async function context(): Promise<Context> {
       ssl: {
         rejectUnauthorized: false
       }
-    })
+    }),
+    userId: '1'
   };
 }
