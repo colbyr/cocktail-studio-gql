@@ -53,6 +53,10 @@ const schema = makeSchema({
   types: [
     QueryType
   ],
+  nonNullDefaults: {
+    input: true,
+    output: true
+  },
   outputs: {
     typegen: join(__dirname, '../nexus-typegen.ts'),
     schema: join(__dirname, '../schema.graphql')
