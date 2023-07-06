@@ -13,12 +13,18 @@
   },
   "scripts": {
     "develop": "nodemon",
+    "prepare": "husky install",
     "run-env": "ts-node --transpileOnly -r dotenv/config",
     "start": "yarn run-env index.ts"
   },
   "devDependencies": {
     "@types/pg": "^8.10.2",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.2.3",
     "nodemon": "^2.0.22",
     "prettier": "3.0.0"
+  },
+  "lint-staged": {
+    "*.ts": ["prettier --list-different"]
   }
 }
