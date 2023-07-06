@@ -1,0 +1,6 @@
+# Ignore artifacts:
+build
+coverage
+node_modules
+__generated__
+yarn.lock
