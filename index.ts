@@ -1,26 +1,26 @@
 import { ApolloServer } from '@apollo/server';
 import { startStandaloneServer } from '@apollo/server/standalone';
 import { makeSchema } from 'nexus';
-import { join } from "path";
-import * as types from './src/types'
+import { join } from 'path';
+import * as types from './src/types';
 import { Env } from './src/Env';
 import { context } from './src/Context';
 
 const schema = makeSchema({
   contextType: {
     module: join(__dirname, 'src/Context.ts'),
-    export: "Context"
+    export: 'Context',
   },
   nonNullDefaults: {
     input: true,
-    output: true
+    output: true,
   },
   outputs: {
-    schema: join(__dirname, "__generated__/schema.graphql"),
-    typegen: join(__dirname , "__generated__/typings.ts"),
+    schema: join(__dirname, '__generated__/schema.graphql'),
+    typegen: join(__dirname, '__generated__/typings.ts'),
   },
   types,
-})
+});
 
 // The ApolloServer constructor requires two parameters: your schema
 // definition and your set of resolvers.
@@ -35,6 +35,6 @@ const server = new ApolloServer({
 startStandaloneServer(server, {
   context,
   listen: { port: Env.PORT },
-}).then(({url}) => {
+}).then(({ url }) => {
   console.log(`🚀  Server ready at: ${url}`);
-})
+});

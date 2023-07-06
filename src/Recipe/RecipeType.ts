@@ -1,17 +1,17 @@
-import { objectType } from "nexus";
-import { join } from "path";
+import { objectType } from 'nexus';
+import { join } from 'path';
 
 export const RecipeType = objectType({
-  name: "Recipe",
+  name: 'Recipe',
   sourceType: {
     module: join(__dirname, './Recipe.ts'),
-    export: "Recipe"
+    export: 'Recipe',
   },
   definition(t) {
-    t.id('id')
+    t.id('id');
 
-    t.string('name')
+    t.string('name');
 
-    t.nullable.string('description')
+    t.nullable.string('description');
   },
-})
+});

@@ -1,26 +1,27 @@
-import { list, objectType } from "nexus";
-import { ZRecipe } from "../Recipe/Recipe";
-import { z } from "zod";
+import { list, objectType } from 'nexus';
+import { ZRecipe } from '../Recipe/Recipe';
+import { z } from 'zod';
 
 export const User = objectType({
-  name: "User",
+  name: 'User',
   definition(t) {
     t.id('id');
 
-    t.string("email");
+    t.string('email');
 
-    t.field("recipes", {
-      type: list("Recipe"),
-      resolve:async ({id: userId}, _args, {pool}) => {
-        const result = await pool.query(`
+    t.field('recipes', {
+      type: list('Recipe'),
+      resolve: async ({ id: userId }, _args, { pool }) => {
+        const result = await pool.query(
+          `
           SELECT *
           FROM recipe
           WHERE user_id = $1
           `,
-          [userId]
-        )
-        return z.array(ZRecipe).parse(result.rows)
-      }
-    })
-  }
-})
+          [userId],
+        );
+        return z.array(ZRecipe).parse(result.rows);
+      },
+    });
+  },
+});

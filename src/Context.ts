@@ -1,10 +1,10 @@
-import { Pool } from "pg"
-import { Env } from "./Env"
+import { Pool } from 'pg';
+import { Env } from './Env';
 
 export type Context = {
   pool: Pool;
   userId: string;
-}
+};
 
 export async function context(): Promise<Context> {
   return {
@@ -15,9 +15,9 @@ export async function context(): Promise<Context> {
       port: Env.PG_PORT,
       database: Env.PG_DATABASE,
       ssl: {
-        rejectUnauthorized: false
-      }
+        rejectUnauthorized: false,
+      },
     }),
-    userId: '1'
+    userId: '1',
   };
 }
