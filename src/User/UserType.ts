@@ -20,6 +20,7 @@ export const User = objectType({
           `,
           [userId],
         );
+        console.info('testing');
         return z.array(ZRecipe).parse(result.rows);
       },
     });
