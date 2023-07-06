@@ -7,7 +7,14 @@ type Query {
   recipeCount: Int!
 }
 
+type Recipe {
+  description: String
+  id: ID!
+  name: String!
+}
+
 type User {
   email: String!
   id: ID!
+  recipes: [Recipe!]!
 }

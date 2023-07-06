@@ -5,6 +5,7 @@
 
 
 import type { Context } from "./../src/Context"
+import type { Recipe } from "./../src/Recipe/Recipe"
 
 
 
@@ -29,6 +30,7 @@ export interface NexusGenScalars {
 
 export interface NexusGenObjects {
   Query: {};
+  Recipe: Recipe;
   User: { // root type
     email: string; // String!
     id: string; // ID!
@@ -50,9 +52,15 @@ export interface NexusGenFieldTypes {
     me: NexusGenRootTypes['User']; // User!
     recipeCount: number; // Int!
   }
+  Recipe: { // field return type
+    description: string | null; // String
+    id: string; // ID!
+    name: string; // String!
+  }
   User: { // field return type
     email: string; // String!
     id: string; // ID!
+    recipes: NexusGenRootTypes['Recipe'][]; // [Recipe!]!
   }
 }
 
@@ -61,9 +69,15 @@ export interface NexusGenFieldTypeNames {
     me: 'User'
     recipeCount: 'Int'
   }
+  Recipe: { // field return type name
+    description: 'String'
+    id: 'ID'
+    name: 'String'
+  }
   User: { // field return type name
     email: 'String'
     id: 'ID'
+    recipes: 'Recipe'
   }
 }
 
