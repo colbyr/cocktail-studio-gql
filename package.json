@@ -25,6 +25,6 @@
     "prettier": "3.0.0"
   },
   "lint-staged": {
-    "*.ts": "prettier --list-different"
+    "**/*": "prettier --list-different --write --ignore-unknown"
   }
 }
