@@ -16,5 +16,6 @@ type Recipe {
 type User {
   email: String!
   id: ID!
+  recipeById(recipeId: ID!): Recipe
   recipes: [Recipe!]!
 }
