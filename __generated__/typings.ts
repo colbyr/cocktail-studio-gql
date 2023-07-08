@@ -6,6 +6,7 @@
 
 import type { Context } from "./../src/Context"
 import type { Recipe } from "./../src/Recipe/Recipe"
+import type { RecipeIngredient } from "./../src/RecipeIngredient/RecipeIngredient"
 
 
 
@@ -18,6 +19,7 @@ export interface NexusGenInputs {
 }
 
 export interface NexusGenEnums {
+  AmountScale: "dash" | "drop" | "floz" | "g" | "mL" | "oz"
 }
 
 export interface NexusGenScalars {
@@ -31,6 +33,7 @@ export interface NexusGenScalars {
 export interface NexusGenObjects {
   Query: {};
   Recipe: Recipe;
+  RecipeIngredient: RecipeIngredient;
   User: { // root type
     email: string; // String!
     id: string; // ID!
@@ -45,7 +48,7 @@ export interface NexusGenUnions {
 
 export type NexusGenRootTypes = NexusGenObjects
 
-export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars
+export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars & NexusGenEnums
 
 export interface NexusGenFieldTypes {
   Query: { // field return type
@@ -56,6 +59,12 @@ export interface NexusGenFieldTypes {
     description: string | null; // String
     id: string; // ID!
     name: string; // String!
+    recipeIngredients: NexusGenRootTypes['RecipeIngredient'][]; // [RecipeIngredient!]!
+  }
+  RecipeIngredient: { // field return type
+    amount: number; // Float!
+    amountScale: NexusGenEnums['AmountScale']; // AmountScale!
+    id: string; // ID!
   }
   User: { // field return type
     email: string; // String!
@@ -74,6 +83,12 @@ export interface NexusGenFieldTypeNames {
     description: 'String'
     id: 'ID'
     name: 'String'
+    recipeIngredients: 'RecipeIngredient'
+  }
+  RecipeIngredient: { // field return type name
+    amount: 'Float'
+    amountScale: 'AmountScale'
+    id: 'ID'
   }
   User: { // field return type name
     email: 'String'
@@ -101,7 +116,7 @@ export type NexusGenObjectNames = keyof NexusGenObjects;
 
 export type NexusGenInputNames = never;
 
-export type NexusGenEnumNames = never;
+export type NexusGenEnumNames = keyof NexusGenEnums;
 
 export type NexusGenInterfaceNames = never;
 

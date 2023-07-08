@@ -2,6 +2,15 @@
 ### Do not make changes to this file directly
 
 
+enum AmountScale {
+  dash
+  drop
+  floz
+  g
+  mL
+  oz
+}
+
 type Query {
   me: User!
   recipeCount: Int!
@@ -11,6 +20,13 @@ type Recipe {
   description: String
   id: ID!
   name: String!
+  recipeIngredients: [RecipeIngredient!]!
+}
+
+type RecipeIngredient {
+  amount: Float!
+  amountScale: AmountScale!
+  id: ID!
 }
 
 type User {
