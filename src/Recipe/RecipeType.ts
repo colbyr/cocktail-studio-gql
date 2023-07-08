@@ -17,7 +17,6 @@ export const RecipeType = objectType({
     t.field('recipeIngredients', {
       type: list('RecipeIngredient'),
       resolve: async ({ id: recipeId, user_id }, _args, { pool }) => {
-        console.info({ recipeId, user_id });
         const result = await pool.query(
           `
           SELECT *

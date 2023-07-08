@@ -11,6 +11,11 @@ enum AmountScale {
   oz
 }
 
+type Ingredient {
+  id: ID!
+  name: String!
+}
+
 type Query {
   me: User!
   recipeCount: Int!
@@ -27,6 +32,7 @@ type RecipeIngredient {
   amount: Float!
   amountScale: AmountScale!
   id: ID!
+  ingredient: Ingredient!
 }
 
 type User {

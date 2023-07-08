@@ -2,7 +2,7 @@ import { idArg, list, nullable, objectType } from 'nexus';
 import { ZRecipe } from '../Recipe/Recipe';
 import { z } from 'zod';
 
-export const User = objectType({
+export const UserType = objectType({
   name: 'User',
   definition(t) {
     t.id('id');

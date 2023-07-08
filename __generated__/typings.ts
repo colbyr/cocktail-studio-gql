@@ -5,6 +5,7 @@
 
 
 import type { Context } from "./../src/Context"
+import type { Ingredient } from "./../src/Ingredient/Ingredient"
 import type { Recipe } from "./../src/Recipe/Recipe"
 import type { RecipeIngredient } from "./../src/RecipeIngredient/RecipeIngredient"
 
@@ -31,6 +32,7 @@ export interface NexusGenScalars {
 }
 
 export interface NexusGenObjects {
+  Ingredient: Ingredient;
   Query: {};
   Recipe: Recipe;
   RecipeIngredient: RecipeIngredient;
@@ -51,6 +53,10 @@ export type NexusGenRootTypes = NexusGenObjects
 export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars & NexusGenEnums
 
 export interface NexusGenFieldTypes {
+  Ingredient: { // field return type
+    id: string; // ID!
+    name: string; // String!
+  }
   Query: { // field return type
     me: NexusGenRootTypes['User']; // User!
     recipeCount: number; // Int!
@@ -65,6 +71,7 @@ export interface NexusGenFieldTypes {
     amount: number; // Float!
     amountScale: NexusGenEnums['AmountScale']; // AmountScale!
     id: string; // ID!
+    ingredient: NexusGenRootTypes['Ingredient']; // Ingredient!
   }
   User: { // field return type
     email: string; // String!
@@ -75,6 +82,10 @@ export interface NexusGenFieldTypes {
 }
 
 export interface NexusGenFieldTypeNames {
+  Ingredient: { // field return type name
+    id: 'ID'
+    name: 'String'
+  }
   Query: { // field return type name
     me: 'User'
     recipeCount: 'Int'
@@ -89,6 +100,7 @@ export interface NexusGenFieldTypeNames {
     amount: 'Float'
     amountScale: 'AmountScale'
     id: 'ID'
+    ingredient: 'Ingredient'
   }
   User: { // field return type name
     email: 'String'

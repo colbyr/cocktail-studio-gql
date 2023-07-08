@@ -1,4 +1,5 @@
 export * from './AmountScale/AmountScaleEnumType';
+export * from './Ingredient/IngredientType';
 export * from './Query/RecipeCountQueryField';
 export * from './Query/MeQueryField';
 export * from './Recipe/RecipeType';
