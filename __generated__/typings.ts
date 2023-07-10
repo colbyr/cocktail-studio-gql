@@ -33,6 +33,7 @@ export interface NexusGenScalars {
 
 export interface NexusGenObjects {
   Ingredient: Ingredient;
+  Mutation: {};
   Query: {};
   Recipe: Recipe;
   RecipeIngredient: RecipeIngredient;
@@ -56,6 +57,9 @@ export interface NexusGenFieldTypes {
   Ingredient: { // field return type
     id: string; // ID!
     name: string; // String!
+  }
+  Mutation: { // field return type
+    createRecipe: NexusGenRootTypes['Recipe']; // Recipe!
   }
   Query: { // field return type
     me: NexusGenRootTypes['User']; // User!
@@ -86,6 +90,9 @@ export interface NexusGenFieldTypeNames {
     id: 'ID'
     name: 'String'
   }
+  Mutation: { // field return type name
+    createRecipe: 'Recipe'
+  }
   Query: { // field return type name
     me: 'User'
     recipeCount: 'Int'
@@ -111,6 +118,11 @@ export interface NexusGenFieldTypeNames {
 }
 
 export interface NexusGenArgTypes {
+  Mutation: {
+    createRecipe: { // args
+      name: string; // String!
+    }
+  }
   User: {
     recipeById: { // args
       recipeId: string; // ID!

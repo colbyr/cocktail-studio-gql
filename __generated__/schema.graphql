@@ -16,6 +16,10 @@ type Ingredient {
   name: String!
 }
 
+type Mutation {
+  createRecipe(name: String!): Recipe!
+}
+
 type Query {
   me: User!
   recipeCount: Int!
