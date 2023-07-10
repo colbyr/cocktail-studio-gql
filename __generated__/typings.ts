@@ -17,6 +17,11 @@ declare global {
 }
 
 export interface NexusGenInputs {
+  RecipeIngredientInput: { // input type
+    amount: number; // Float!
+    amountScale?: NexusGenEnums['AmountScale'] | null; // AmountScale
+    ingredientName: string; // ID!
+  }
 }
 
 export interface NexusGenEnums {
@@ -138,7 +143,7 @@ export interface NexusGenTypeInterfaces {
 
 export type NexusGenObjectNames = keyof NexusGenObjects;
 
-export type NexusGenInputNames = never;
+export type NexusGenInputNames = keyof NexusGenInputs;
 
 export type NexusGenEnumNames = keyof NexusGenEnums;
 

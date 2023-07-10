@@ -39,6 +39,12 @@ type RecipeIngredient {
   ingredient: Ingredient!
 }
 
+input RecipeIngredientInput {
+  amount: Float!
+  amountScale: AmountScale
+  ingredientName: ID!
+}
+
 type User {
   email: String!
   id: ID!
