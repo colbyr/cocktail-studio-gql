@@ -27,10 +27,10 @@ export const RecipeType = objectType({
           FROM recipe_ingredient
           JOIN ingredient ON (
             ingredient.user_id = recipe_ingredient.user_id
-            AND ingredient.id = recipe_ingredient.recipe_id
+            AND ingredient.id = recipe_ingredient.ingredient_id
           )
-          WHERE user_id = ${user_id}
-            AND recipe_id = ${recipe_id}
+          WHERE recipe_ingredient.user_id = ${user_id}
+            AND recipe_ingredient.recipe_id = ${recipe_id}
           ORDER BY
             amount_scale DESC,
             amount_unit DESC
