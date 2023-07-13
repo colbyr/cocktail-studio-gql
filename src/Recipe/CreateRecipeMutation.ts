@@ -45,7 +45,6 @@ export const CreateRecipeMutation = mutationField('createRecipe', {
           )
         `,
       );
-      console.info(idx_ingredient_map);
       const [recipe] = z.array(ZRecipe).parse(
         await sql`
           INSERT INTO recipe
@@ -53,7 +52,6 @@ export const CreateRecipeMutation = mutationField('createRecipe', {
           RETURNING *
         `,
       );
-      console.info({ recipe });
       await sql`
         INSERT INTO recipe_ingredient
         ${sql(
