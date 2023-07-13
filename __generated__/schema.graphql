@@ -22,7 +22,6 @@ type Mutation {
 
 type Query {
   me: User!
-  recipeCount: Int!
 }
 
 type Recipe {

@@ -68,7 +68,6 @@ export interface NexusGenFieldTypes {
   }
   Query: { // field return type
     me: NexusGenRootTypes['User']; // User!
-    recipeCount: number; // Int!
   }
   Recipe: { // field return type
     description: string | null; // String
@@ -100,7 +99,6 @@ export interface NexusGenFieldTypeNames {
   }
   Query: { // field return type name
     me: 'User'
-    recipeCount: 'Int'
   }
   Recipe: { // field return type name
     description: 'String'

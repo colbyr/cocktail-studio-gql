@@ -14,32 +14,26 @@ export const UserType = objectType({
       args: {
         recipeId: idArg(),
       },
-      resolve: async ({ id: userId }, { recipeId }, { pool }) => {
-        const result = await pool.query(
-          `
+      resolve: async ({ id: userId }, { recipeId }, { sql }) => {
+        const result = await sql`
           SELECT *
           FROM recipe
-          WHERE user_id = $1
-            AND id = $2
-          `,
-          [userId, recipeId],
-        );
-        return ZRecipe.parse(result.rows[0]);
+          WHERE user_id = ${userId}
+            AND id = ${recipeId}
+        `;
+        return ZRecipe.parse(result[0]);
       },
     });
 
     t.field('recipes', {
       type: list('Recipe'),
-      resolve: async ({ id: userId }, _args, { pool }) => {
-        const result = await pool.query(
-          `
+      resolve: async ({ id: userId }, _args, { sql }) => {
+        const result = await sql`
           SELECT *
           FROM recipe
-          WHERE user_id = $1
-          `,
-          [userId],
-        );
-        return z.array(ZRecipe).parse(result.rows);
+          WHERE user_id = ${userId}
+        `;
+        return z.array(ZRecipe).parse(result);
       },
     });
   },

@@ -22,17 +22,14 @@ export const RecipeIngredientType = objectType({
 
     t.field('ingredient', {
       type: 'Ingredient',
-      resolve: async ({ ingredient_id, user_id }, _args, { pool }) => {
-        const result = await pool.query(
-          `
+      resolve: async ({ ingredient_id, user_id }, _args, { sql }) => {
+        const result = await sql`
           SELECT *
           FROM ingredient
-          WHERE user_id = $1
-            AND id = $2
-          `,
-          [user_id, ingredient_id],
-        );
-        const [ingredient] = result.rows;
+          WHERE user_id = ${user_id}
+            AND id = ${ingredient_id}
+        `;
+        const [ingredient] = result;
         return ZIngredient.parse(ingredient);
       },
     });
