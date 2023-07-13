@@ -6,20 +6,21 @@ export type Context = {
   userId: string;
 };
 
+const sql = postgres({
+  user: Env.PG_USER,
+  password: Env.PG_PASSWORD,
+  host: Env.PG_HOST,
+  port: Env.PG_PORT,
+  database: Env.PG_DATABASE,
+  ssl: {
+    rejectUnauthorized: false,
+  },
+  max: 4,
+});
+
 export async function context(): Promise<Context> {
   return {
-    sql: postgres({
-      user: Env.PG_USER,
-      password: Env.PG_PASSWORD,
-      host: Env.PG_HOST,
-      port: Env.PG_PORT,
-      database: Env.PG_DATABASE,
-      ssl: {
-        rejectUnauthorized: false,
-      },
-      max: 5,
-    }),
-
+    sql,
     userId: '1',
   };
 }
