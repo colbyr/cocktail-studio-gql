@@ -10,7 +10,7 @@ export const CreateRecipeMutation = mutationField('createRecipe', {
     name: stringArg(),
     recipeIngredients: list('RecipeIngredientInput'),
   },
-  resolve: async (_, { name, recipeIngredients }, { pool, sql, userId }) => {
+  resolve: async (_, { name, recipeIngredients }, { sql, userId }) => {
     return sql.begin(async (sql) => {
       await sql`
         INSERT INTO ingredient
