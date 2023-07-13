@@ -10,6 +10,6 @@ export const RecipeIngredientInputType = inputObjectType({
       type: nullable('AmountScale'),
     });
 
-    t.id('ingredientName');
+    t.string('ingredientName');
   },
 });

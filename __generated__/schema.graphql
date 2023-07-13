@@ -17,7 +17,7 @@ type Ingredient {
 }
 
 type Mutation {
-  createRecipe(name: String!): Recipe!
+  createRecipe(name: String!, recipeIngredients: [RecipeIngredientInput!]!): Recipe!
 }
 
 type Query {
@@ -41,7 +41,7 @@ type RecipeIngredient {
 input RecipeIngredientInput {
   amount: Float!
   amountScale: AmountScale
-  ingredientName: ID!
+  ingredientName: String!
 }
 
 type User {

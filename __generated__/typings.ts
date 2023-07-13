@@ -20,7 +20,7 @@ export interface NexusGenInputs {
   RecipeIngredientInput: { // input type
     amount: number; // Float!
     amountScale?: NexusGenEnums['AmountScale'] | null; // AmountScale
-    ingredientName: string; // ID!
+    ingredientName: string; // String!
   }
 }
 
@@ -124,6 +124,7 @@ export interface NexusGenArgTypes {
   Mutation: {
     createRecipe: { // args
       name: string; // String!
+      recipeIngredients: NexusGenInputs['RecipeIngredientInput'][]; // [RecipeIngredientInput!]!
     }
   }
   User: {
