@@ -70,7 +70,7 @@ export interface NexusGenFieldTypes {
     me: NexusGenRootTypes['User']; // User!
   }
   Recipe: { // field return type
-    description: string | null; // String
+    description: string; // String!
     id: string; // ID!
     name: string; // String!
     recipeIngredients: NexusGenRootTypes['RecipeIngredient'][]; // [RecipeIngredient!]!
