@@ -1,4 +1,4 @@
-import { objectType } from 'nexus';
+import { nullable, objectType } from 'nexus';
 import { join } from 'path';
 import { ZIngredient } from '../Ingredient/Ingredient';
 
@@ -14,7 +14,7 @@ export const RecipeIngredientType = objectType({
     t.float('amount');
 
     t.field('amountScale', {
-      type: 'AmountScale',
+      type: nullable('AmountScale'),
       resolve: async ({ amount_scale }) => {
         return amount_scale;
       },
