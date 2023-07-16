@@ -1,9 +1,9 @@
-import { list, mutationField, stringArg } from 'nexus';
+import { idArg, list, mutationField } from 'nexus';
 
-export const DeleteRecipeMutation = mutationField('deleteRecipe', {
+export const DeleteRecipesMutation = mutationField('deleteRecipes', {
   type: list('ID'),
   args: {
-    recipeIds: list('ID'),
+    recipeIds: list(idArg()),
   },
   resolve: async (_, { recipeIds }, { sql, userId }) => {
     await sql`

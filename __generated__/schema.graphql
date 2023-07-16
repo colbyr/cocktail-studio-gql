@@ -18,7 +18,7 @@ type Ingredient {
 
 type Mutation {
   createRecipe(name: String!, recipeIngredients: [RecipeIngredientInput!]!): Recipe!
-  deleteRecipe(recipeIds: [ID!]!): [ID!]!
+  deleteRecipes(recipeIds: [ID!]!): [ID!]!
 }
 
 type Query {
