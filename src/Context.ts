@@ -38,6 +38,7 @@ export const context: ContextFunction<
 
   return {
     sql,
-    userId: token.userId,
+    // @ts-expect-error TODO colbyr
+    userId: token.userId ?? '',
   };
 };
