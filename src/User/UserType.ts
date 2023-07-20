@@ -15,13 +15,16 @@ export const UserType = objectType({
         recipeId: idArg(),
       },
       resolve: async ({ id: userId }, { recipeId }, { sql }) => {
-        const result = await sql`
+        const [recipe] = await sql`
           SELECT *
           FROM recipe
           WHERE user_id = ${userId}
             AND id = ${recipeId}
         `;
-        return ZRecipe.parse(result[0]);
+        if (!recipe) {
+          return null;
+        }
+        return ZRecipe.parse(recipe);
       },
     });
 

@@ -1,5 +1,8 @@
 import postgres, { Sql } from 'postgres';
 import { Env } from './Env';
+import { ContextFunction } from '@apollo/server';
+import { StandaloneServerContextFunctionArgument } from '@apollo/server/dist/esm/standalone';
+import jwt from 'jsonwebtoken';
 
 export type Context = {
   sql: Sql;
@@ -18,9 +21,23 @@ const sql = postgres({
   max: 4,
 });
 
-export async function context(): Promise<Context> {
+export const context: ContextFunction<
+  [StandaloneServerContextFunctionArgument]
+> = async function context({ req }): Promise<Context> {
+  const [, encodedToken] = req.headers.authorization?.split(' ') ?? [];
+  if (!encodedToken) {
+    throw new Error('no token');
+  }
+  let token;
+  try {
+    token = jwt.verify(encodedToken, Env.JWT_SECRET_KEY);
+  } catch (err) {
+    console.error(err);
+    throw new Error('invalid token');
+  }
+
   return {
     sql,
-    userId: '1',
+    userId: token.userId,
   };
-}
+};
