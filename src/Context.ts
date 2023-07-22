@@ -4,10 +4,19 @@ import { ContextFunction } from '@apollo/server';
 import { StandaloneServerContextFunctionArgument } from '@apollo/server/dist/esm/standalone';
 import jwt from 'jsonwebtoken';
 
-export type Context = {
+export type ContextAuthenticated = {
   sql: Sql;
+  token: unknown;
   userId: string;
 };
+
+export type ContextUnauthenticated = {
+  sql: Sql;
+  token: null;
+  userId: null;
+};
+
+export type Context = ContextAuthenticated | ContextUnauthenticated;
 
 const sql = postgres({
   user: Env.PG_USER,
@@ -33,15 +42,12 @@ export const context: ContextFunction<
     console.info(body);
   }
 
-  if (!encodedToken && body.operationName === 'Login') {
+  if (!encodedToken) {
     return {
       sql,
-      userId: '',
+      token: null,
+      userId: null,
     };
-  }
-
-  if (!encodedToken && body.operationName === 'Login') {
-    throw new Error('no token');
   }
 
   let token;
@@ -54,6 +60,7 @@ export const context: ContextFunction<
 
   return {
     sql,
+    token: token,
     // @ts-expect-error TODO colbyr
     userId: token.userId ?? '',
   };

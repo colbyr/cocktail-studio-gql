@@ -19,6 +19,7 @@ const schema = makeSchema({
     schema: join(__dirname, '__generated__/schema.graphql'),
     typegen: join(__dirname, '__generated__/typings.ts'),
   },
+  plugins: [fieldAuthorizePlugin()],
   types,
 });
 

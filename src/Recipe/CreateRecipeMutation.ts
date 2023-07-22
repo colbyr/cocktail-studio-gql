@@ -1,11 +1,12 @@
 import { list, mutationField, stringArg } from 'nexus';
 import { ZRecipe } from './Recipe';
-import { ZIngredient } from '../Ingredient/Ingredient';
 import { indexBy } from 'ramda';
 import { z } from 'zod';
+import { requireAuth } from '../lib/Authorize';
 
 export const CreateRecipeMutation = mutationField('createRecipe', {
   type: 'Recipe',
+  authorize: requireAuth,
   args: {
     name: stringArg(),
     recipeIngredients: list('RecipeIngredientInput'),

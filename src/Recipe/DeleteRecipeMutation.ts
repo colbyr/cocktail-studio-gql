@@ -1,7 +1,9 @@
 import { idArg, list, mutationField } from 'nexus';
+import { requireAuth } from '../lib/Authorize';
 
 export const DeleteRecipesMutation = mutationField('deleteRecipes', {
   type: list('ID'),
+  authorize: requireAuth,
   args: {
     recipeIds: list(idArg()),
   },
