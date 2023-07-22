@@ -10,13 +10,13 @@ export const LoginMutation = mutationField('login', {
     password: stringArg(),
   },
   resolve: async (_, { email, password }, { sql }) => {
-    const [user] = await sql`
-      SELECT id, password_hash, password_salt
+    const [userRow] = await sql`
+      SELECT id, email, password_hash, password_salt
       FROM "user"
       WHERE email = ${email}
     `;
 
-    if (!user || !user.password_hash || !user.password_salt) {
+    if (!userRow || !userRow.password_hash || !userRow.password_salt) {
       return {
         reason: 'Incorrect email + password',
       };
@@ -24,20 +24,21 @@ export const LoginMutation = mutationField('login', {
 
     const inputPasswordHash = pbkdf2Sync(
       password,
-      user.password_salt,
+      userRow.password_salt,
       1000,
       64,
       `sha512`,
     ).toString(`hex`);
 
-    if (inputPasswordHash !== user.password_hash) {
+    if (inputPasswordHash !== userRow.password_hash) {
       return {
         reason: 'Incorrect email + password',
       };
     }
     return {
+      userId: userRow.id,
       token: jwt.sign(
-        { time: new Date(), userId: `${user.id}` },
+        { time: new Date(), userId: `${userRow.id}` },
         Env.JWT_SECRET_KEY,
       ),
     };

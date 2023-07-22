@@ -5,7 +5,7 @@ export const MeQueryField = queryField('me', {
   type: 'User',
   resolve: async (_, _args, { sql, userId }) => {
     const result = await sql`
-      SELECT *
+      SELECT id, email
       FROM "user"
       WHERE id = ${userId}
     `;

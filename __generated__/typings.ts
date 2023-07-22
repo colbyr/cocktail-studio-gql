@@ -43,6 +43,7 @@ export interface NexusGenObjects {
   }
   LoginResultSuccess: { // root type
     token: string; // String!
+    userId: string; // ID!
   }
   Mutation: {};
   Query: {};
@@ -75,6 +76,8 @@ export interface NexusGenFieldTypes {
   }
   LoginResultSuccess: { // field return type
     token: string; // String!
+    user: NexusGenRootTypes['User']; // User!
+    userId: string; // ID!
   }
   Mutation: { // field return type
     createRecipe: NexusGenRootTypes['Recipe']; // Recipe!
@@ -114,6 +117,8 @@ export interface NexusGenFieldTypeNames {
   }
   LoginResultSuccess: { // field return type name
     token: 'String'
+    user: 'User'
+    userId: 'ID'
   }
   Mutation: { // field return type name
     createRecipe: 'Recipe'
