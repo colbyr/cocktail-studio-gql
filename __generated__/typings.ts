@@ -76,7 +76,6 @@ export interface NexusGenFieldTypes {
   }
   LoginResultSuccess: { // field return type
     token: string; // String!
-    user: NexusGenRootTypes['User']; // User!
     userId: string; // ID!
   }
   Mutation: { // field return type
@@ -117,7 +116,6 @@ export interface NexusGenFieldTypeNames {
   }
   LoginResultSuccess: { // field return type name
     token: 'String'
-    user: 'User'
     userId: 'ID'
   }
   Mutation: { // field return type name

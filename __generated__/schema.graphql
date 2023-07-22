@@ -24,7 +24,6 @@ type LoginResultFailure {
 
 type LoginResultSuccess {
   token: String!
-  user: User!
   userId: ID!
 }
 
