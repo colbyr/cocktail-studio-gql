@@ -38,6 +38,12 @@ export interface NexusGenScalars {
 
 export interface NexusGenObjects {
   Ingredient: Ingredient;
+  LoginResultFailure: { // root type
+    reason: string; // String!
+  }
+  LoginResultSuccess: { // root type
+    token: string; // String!
+  }
   Mutation: {};
   Query: {};
   Recipe: Recipe;
@@ -52,9 +58,10 @@ export interface NexusGenInterfaces {
 }
 
 export interface NexusGenUnions {
+  LoginResult: NexusGenRootTypes['LoginResultFailure'] | NexusGenRootTypes['LoginResultSuccess'];
 }
 
-export type NexusGenRootTypes = NexusGenObjects
+export type NexusGenRootTypes = NexusGenObjects & NexusGenUnions
 
 export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars & NexusGenEnums
 
@@ -63,9 +70,16 @@ export interface NexusGenFieldTypes {
     id: string; // ID!
     name: string; // String!
   }
+  LoginResultFailure: { // field return type
+    reason: string; // String!
+  }
+  LoginResultSuccess: { // field return type
+    token: string; // String!
+  }
   Mutation: { // field return type
     createRecipe: NexusGenRootTypes['Recipe']; // Recipe!
     deleteRecipes: string[]; // [ID!]!
+    login: NexusGenRootTypes['LoginResult']; // LoginResult!
   }
   Query: { // field return type
     me: NexusGenRootTypes['User']; // User!
@@ -95,9 +109,16 @@ export interface NexusGenFieldTypeNames {
     id: 'ID'
     name: 'String'
   }
+  LoginResultFailure: { // field return type name
+    reason: 'String'
+  }
+  LoginResultSuccess: { // field return type name
+    token: 'String'
+  }
   Mutation: { // field return type name
     createRecipe: 'Recipe'
     deleteRecipes: 'ID'
+    login: 'LoginResult'
   }
   Query: { // field return type name
     me: 'User'
@@ -131,6 +152,10 @@ export interface NexusGenArgTypes {
     deleteRecipes: { // args
       recipeIds: string[]; // [ID!]!
     }
+    login: { // args
+      email: string; // String!
+      password: string; // String!
+    }
   }
   User: {
     recipeById: { // args
@@ -140,6 +165,7 @@ export interface NexusGenArgTypes {
 }
 
 export interface NexusGenAbstractTypeMembers {
+  LoginResult: "LoginResultFailure" | "LoginResultSuccess"
 }
 
 export interface NexusGenTypeInterfaces {
@@ -155,11 +181,11 @@ export type NexusGenInterfaceNames = never;
 
 export type NexusGenScalarNames = keyof NexusGenScalars;
 
-export type NexusGenUnionNames = never;
+export type NexusGenUnionNames = keyof NexusGenUnions;
 
 export type NexusGenObjectsUsingAbstractStrategyIsTypeOf = never;
 
-export type NexusGenAbstractsUsingStrategyResolveType = never;
+export type NexusGenAbstractsUsingStrategyResolveType = "LoginResult";
 
 export type NexusGenFeaturesConfig = {
   abstractTypeStrategies: {

@@ -16,9 +16,20 @@ type Ingredient {
   name: String!
 }
 
+union LoginResult = LoginResultFailure | LoginResultSuccess
+
+type LoginResultFailure {
+  reason: String!
+}
+
+type LoginResultSuccess {
+  token: String!
+}
+
 type Mutation {
   createRecipe(name: String!, recipeIngredients: [RecipeIngredientInput!]!): Recipe!
   deleteRecipes(recipeIds: [ID!]!): [ID!]!
+  login(email: String!, password: String!): LoginResult!
 }
 
 type Query {
