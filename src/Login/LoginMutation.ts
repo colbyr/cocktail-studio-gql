@@ -1,5 +1,7 @@
 import { pbkdf2Sync } from 'crypto';
+import jwt from 'jsonwebtoken';
 import { mutationField, stringArg } from 'nexus';
+import { Env } from '../Env';
 
 export const LoginMutation = mutationField('login', {
   type: 'LoginResult',
@@ -33,9 +35,11 @@ export const LoginMutation = mutationField('login', {
         reason: 'Incorrect email + password',
       };
     }
-
     return {
-      token: 'fake-token',
+      token: jwt.sign(
+        { time: new Date(), userId: `${user.id}` },
+        Env.JWT_SECRET_KEY,
+      ),
     };
   },
 });
