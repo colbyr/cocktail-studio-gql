@@ -25,9 +25,25 @@ export const context: ContextFunction<
   [StandaloneServerContextFunctionArgument]
 > = async function context({ req }): Promise<Context> {
   const [, encodedToken] = req.headers.authorization?.split(' ') ?? [];
-  if (!encodedToken) {
+  const body: {
+    operationName?: string;
+    // @ts-expect-error
+  } = req.body;
+  if (body.operationName === 'Login') {
+    console.info(body);
+  }
+
+  if (!encodedToken && body.operationName === 'Login') {
+    return {
+      sql,
+      userId: '',
+    };
+  }
+
+  if (!encodedToken && body.operationName === 'Login') {
     throw new Error('no token');
   }
+
   let token;
   try {
     token = jwt.verify(encodedToken, Env.JWT_SECRET_KEY);
