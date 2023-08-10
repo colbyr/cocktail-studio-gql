@@ -102,6 +102,8 @@ export interface NexusGenFieldTypes {
   User: { // field return type
     email: string; // String!
     id: string; // ID!
+    ingredientById: NexusGenRootTypes['Ingredient'] | null; // Ingredient
+    ingredients: NexusGenRootTypes['Ingredient'][]; // [Ingredient!]!
     recipeById: NexusGenRootTypes['Recipe'] | null; // Recipe
     recipes: NexusGenRootTypes['Recipe'][]; // [Recipe!]!
   }
@@ -142,6 +144,8 @@ export interface NexusGenFieldTypeNames {
   User: { // field return type name
     email: 'String'
     id: 'ID'
+    ingredientById: 'Ingredient'
+    ingredients: 'Ingredient'
     recipeById: 'Recipe'
     recipes: 'Recipe'
   }
@@ -162,6 +166,9 @@ export interface NexusGenArgTypes {
     }
   }
   User: {
+    ingredientById: { // args
+      ingredientId: string; // ID!
+    }
     recipeById: { // args
       recipeId: string; // ID!
     }

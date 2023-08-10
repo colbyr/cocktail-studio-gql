@@ -60,6 +60,8 @@ input RecipeIngredientInput {
 type User {
   email: String!
   id: ID!
+  ingredientById(ingredientId: ID!): Ingredient
+  ingredients: [Ingredient!]!
   recipeById(recipeId: ID!): Recipe
   recipes: [Recipe!]!
 }
