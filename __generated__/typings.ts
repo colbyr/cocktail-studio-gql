@@ -69,8 +69,10 @@ export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars & NexusGenEnu
 
 export interface NexusGenFieldTypes {
   Ingredient: { // field return type
+    description: string; // String!
     id: string; // ID!
     name: string; // String!
+    recipes: NexusGenRootTypes['Recipe'][]; // [Recipe!]!
   }
   LoginResultFailure: { // field return type
     reason: string; // String!
@@ -111,8 +113,10 @@ export interface NexusGenFieldTypes {
 
 export interface NexusGenFieldTypeNames {
   Ingredient: { // field return type name
+    description: 'String'
     id: 'ID'
     name: 'String'
+    recipes: 'Recipe'
   }
   LoginResultFailure: { // field return type name
     reason: 'String'

@@ -12,8 +12,10 @@ enum AmountScale {
 }
 
 type Ingredient {
+  description: String!
   id: ID!
   name: String!
+  recipes: [Recipe!]!
 }
 
 union LoginResult = LoginResultFailure | LoginResultSuccess
