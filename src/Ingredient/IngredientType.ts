@@ -21,7 +21,7 @@ export const IngredientType = objectType({
             AND recipe_ingredient.ingredient_id = ${id}
           GROUP BY ingredient_id
         `;
-        const count = ingredientCount.count ?? 0;
+        const count = ingredientCount ? parseInt(ingredientCount.count) : 0;
         if (count === 1) {
           return `${count} recipe`;
         }
