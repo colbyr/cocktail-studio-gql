@@ -33,6 +33,7 @@ type Mutation {
   createRecipe(name: String!, recipeIngredients: [RecipeIngredientInput!]!): Recipe!
   deleteRecipes(recipeIds: [ID!]!): [ID!]!
   login(email: String!, password: String!): LoginResult!
+  loginAnonymous: LoginResult!
 }
 
 type Query {
@@ -60,7 +61,7 @@ input RecipeIngredientInput {
 }
 
 type User {
-  email: String!
+  email: String
   id: ID!
   ingredientById(ingredientId: ID!): Ingredient
   ingredients: [Ingredient!]!

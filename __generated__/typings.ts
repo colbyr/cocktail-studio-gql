@@ -51,7 +51,7 @@ export interface NexusGenObjects {
   Recipe: Recipe;
   RecipeIngredient: RecipeIngredient;
   User: { // root type
-    email: string; // String!
+    email?: string | null; // String
     id: string; // ID!
   }
 }
@@ -85,6 +85,7 @@ export interface NexusGenFieldTypes {
     createRecipe: NexusGenRootTypes['Recipe']; // Recipe!
     deleteRecipes: string[]; // [ID!]!
     login: NexusGenRootTypes['LoginResult']; // LoginResult!
+    loginAnonymous: NexusGenRootTypes['LoginResult']; // LoginResult!
   }
   Query: { // field return type
     me: NexusGenRootTypes['User']; // User!
@@ -102,7 +103,7 @@ export interface NexusGenFieldTypes {
     ingredient: NexusGenRootTypes['Ingredient']; // Ingredient!
   }
   User: { // field return type
-    email: string; // String!
+    email: string | null; // String
     id: string; // ID!
     ingredientById: NexusGenRootTypes['Ingredient'] | null; // Ingredient
     ingredients: NexusGenRootTypes['Ingredient'][]; // [Ingredient!]!
@@ -129,6 +130,7 @@ export interface NexusGenFieldTypeNames {
     createRecipe: 'Recipe'
     deleteRecipes: 'ID'
     login: 'LoginResult'
+    loginAnonymous: 'LoginResult'
   }
   Query: { // field return type name
     me: 'User'

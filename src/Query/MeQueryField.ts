@@ -14,7 +14,7 @@ export const MeQueryField = queryField('me', {
     return z
       .object({
         id: z.string(),
-        email: z.string(),
+        email: z.string().nullable(),
       })
       .parse(result[0]);
   },

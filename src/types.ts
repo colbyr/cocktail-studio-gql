@@ -2,6 +2,7 @@ export * from './AmountScale/AmountScaleEnumType';
 
 export * from './Ingredient/IngredientType';
 
+export * from './Login/LoginAnonymousMutation';
 export * from './Login/LoginMutation';
 export * from './Login/LoginResultType';
 export * from './Login/LoginResultFailureType';

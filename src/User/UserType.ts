@@ -8,7 +8,7 @@ export const UserType = objectType({
   definition(t) {
     t.id('id');
 
-    t.string('email');
+    t.nullable.string('email');
 
     t.field('ingredientById', {
       type: nullable('Ingredient'),
