@@ -2,14 +2,26 @@ import { pbkdf2Sync } from 'crypto';
 import jwt from 'jsonwebtoken';
 import { mutationField, stringArg } from 'nexus';
 import { Env } from '../Env';
+import { signToken } from '../lib/TokenSchema';
+import { UserSchema } from '../User/UserSchema';
 
 export const LoginMutation = mutationField('login', {
   type: 'LoginResult',
+  authorize: (_root, _args, { token }) => {
+    if (!token) {
+      return true;
+    }
+    return (
+      typeof token === 'object' &&
+      'anonymous' in token &&
+      token.anonymous === true
+    );
+  },
   args: {
     email: stringArg(),
     password: stringArg(),
   },
-  resolve: async (_, { email, password }, { sql }) => {
+  resolve: async (_, { email, password }, { sql, token }) => {
     const [userRow] = await sql`
       SELECT id, email, password_hash, password_salt
       FROM "user"
@@ -35,12 +47,12 @@ export const LoginMutation = mutationField('login', {
         reason: 'Incorrect email + password',
       };
     }
+
+    const user = UserSchema.parse(userRow);
+
     return {
-      userId: userRow.id,
-      token: jwt.sign(
-        { time: new Date(), userId: `${userRow.id}` },
-        Env.JWT_SECRET_KEY,
-      ),
+      userId: user.id,
+      token: signToken(user),
     };
   },
 });

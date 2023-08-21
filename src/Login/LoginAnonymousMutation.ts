@@ -1,6 +1,6 @@
-import jwt from 'jsonwebtoken';
 import { mutationField, stringArg } from 'nexus';
-import { Env } from '../Env';
+import { signAnonymousToken } from '../lib/TokenSchema';
+import { UserSchema } from '../User/UserSchema';
 
 export const LoginAnonymousMutation = mutationField('loginAnonymous', {
   type: 'LoginResult',
@@ -10,16 +10,10 @@ export const LoginAnonymousMutation = mutationField('loginAnonymous', {
       VALUES (NULL)
       RETURNING id, email
     `;
+    const user = UserSchema.parse(userRow);
     return {
-      userId: userRow.id,
-      token: jwt.sign(
-        {
-          anonymous: true,
-          time: new Date(),
-          userId: `${userRow.id}`,
-        },
-        Env.JWT_SECRET_KEY,
-      ),
+      userId: user.id,
+      token: signAnonymousToken(user),
     };
   },
 });

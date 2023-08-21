@@ -3,6 +3,7 @@ import { Env } from './Env';
 import { ContextFunction } from '@apollo/server';
 import { StandaloneServerContextFunctionArgument } from '@apollo/server/dist/esm/standalone';
 import jwt from 'jsonwebtoken';
+import { verifyToken } from './lib/TokenSchema';
 
 export type ContextAuthenticated = {
   sql: Sql;
@@ -50,18 +51,11 @@ export const context: ContextFunction<
     };
   }
 
-  let token;
-  try {
-    token = jwt.verify(encodedToken, Env.JWT_SECRET_KEY);
-  } catch (err) {
-    console.error(err);
-    throw new Error('invalid token');
-  }
+  const token = verifyToken(encodedToken);
 
   return {
     sql,
     token: token,
-    // @ts-expect-error TODO colbyr
     userId: token.userId ?? '',
   };
 };

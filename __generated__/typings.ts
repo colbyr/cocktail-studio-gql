@@ -8,6 +8,7 @@ import type { Context } from "./../src/Context"
 import type { Ingredient } from "./../src/Ingredient/Ingredient"
 import type { Recipe } from "./../src/Recipe/Recipe"
 import type { RecipeIngredient } from "./../src/RecipeIngredient/RecipeIngredient"
+import type { User } from "./../src/User/UserSchema"
 import type { FieldAuthorizeResolver } from "nexus/dist/plugins/fieldAuthorizePlugin"
 
 
@@ -50,10 +51,7 @@ export interface NexusGenObjects {
   Query: {};
   Recipe: Recipe;
   RecipeIngredient: RecipeIngredient;
-  User: { // root type
-    email?: string | null; // String
-    id: string; // ID!
-  }
+  User: User;
 }
 
 export interface NexusGenInterfaces {
