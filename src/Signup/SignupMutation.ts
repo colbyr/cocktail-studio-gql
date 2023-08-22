@@ -30,7 +30,7 @@ export const SignupMutation = mutationField('signup', {
     `;
 
       if (!anonUserRow) {
-        throw new Error('invalid');
+        throw new Error('exipired account');
       }
 
       const anonUser = AnonymousUserSchema.parse(anonUserRow);

@@ -51,7 +51,6 @@ export const context: ContextFunction<
     };
   }
 
-  console.info({ encodedToken });
   const token = verifyToken(encodedToken);
 
   return {

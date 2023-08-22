@@ -24,7 +24,6 @@ export function signAnonymousToken(user: { id: string }) {
     time: new Date(),
     userId: `${user.id}`,
   };
-  console.info(token);
   return jwt.sign(token, Env.JWT_SECRET_KEY);
 }
 
