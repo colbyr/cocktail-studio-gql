@@ -16,4 +16,6 @@ export * from './Recipe/RecipeType';
 export * from './RecipeIngredient/RecipeIngredientType';
 export * from './RecipeIngredient/RecipeIngredientInputType';
 
+export * from './Signup/SignupMutation';
+
 export * from './User/UserType';
