@@ -3,30 +3,70 @@ import jwt from 'jsonwebtoken';
 import { mutationField, stringArg } from 'nexus';
 import { Env } from '../Env';
 import { signToken } from '../lib/TokenSchema';
-import { UserSchema } from '../User/UserSchema';
+import {
+  AnonymousUser,
+  AnonymousUserSchema,
+  KnownUserSchema,
+  User,
+  UserSchema,
+} from '../User/UserSchema';
+import { Sql } from 'postgres';
+
+async function mergeAnonymousUser(
+  sql: Sql,
+  user: User,
+  anonUser: AnonymousUser,
+) {
+  const tablesToMerge = ['ingredient', 'recipe', 'recipe_ingredient'];
+  await sql.begin(async (sql) => {
+    await Promise.all(
+      tablesToMerge.map(async (tableName) => {
+        console.info('update', tableName);
+        await sql`
+          UPDATE ${sql(tableName)} SET user_id = ${user.id}
+          FROM "user"
+          WHERE ${sql(tableName)}.user_id = ${anonUser.id}
+            AND "user".id = ${sql(tableName)}.user_id
+            AND "user".email IS NULL
+        `;
+      }),
+    );
+    await sql`
+      DELETE FROM "user"
+      WHERE id = ${anonUser.id}
+        AND email IS NULL
+    `;
+  });
+}
 
 export const LoginMutation = mutationField('login', {
   type: 'LoginResult',
-  authorize: (_root, _args, { token }) => {
-    if (!token) {
-      return true;
-    }
-    return (
-      typeof token === 'object' &&
-      'anonymous' in token &&
-      token.anonymous === true
-    );
-  },
   args: {
     email: stringArg(),
     password: stringArg(),
   },
+  authorize: (_root, _args, { token }) => {
+    if (!token) {
+      return true;
+    }
+    return token.anonymous === true;
+  },
   resolve: async (_, { email, password }, { sql, token }) => {
-    const [userRow] = await sql`
-      SELECT id, email, password_hash, password_salt
-      FROM "user"
-      WHERE email = ${email}
-    `;
+    const [[anonUserRow], [userRow]] = await Promise.all([
+      token
+        ? sql`
+          SELECT id, email, password_hash, password_salt
+          FROM "user"
+          WHERE id = ${token.userId}
+            AND email IS NULL
+        `
+        : [null],
+      sql`
+        SELECT id, email, password_hash, password_salt
+        FROM "user"
+        WHERE email = ${email}
+      `,
+    ]);
 
     if (!userRow || !userRow.password_hash || !userRow.password_salt) {
       return {
@@ -48,7 +88,14 @@ export const LoginMutation = mutationField('login', {
       };
     }
 
-    const user = UserSchema.parse(userRow);
+    const user = KnownUserSchema.parse(userRow);
+    const anonUser = anonUserRow
+      ? AnonymousUserSchema.parse(anonUserRow)
+      : null;
+
+    if (anonUser) {
+      await mergeAnonymousUser(sql, user, anonUser);
+    }
 
     return {
       userId: user.id,

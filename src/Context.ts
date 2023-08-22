@@ -3,11 +3,11 @@ import { Env } from './Env';
 import { ContextFunction } from '@apollo/server';
 import { StandaloneServerContextFunctionArgument } from '@apollo/server/dist/esm/standalone';
 import jwt from 'jsonwebtoken';
-import { verifyToken } from './lib/TokenSchema';
+import { Token, verifyToken } from './lib/TokenSchema';
 
 export type ContextAuthenticated = {
   sql: Sql;
-  token: unknown;
+  token: Token;
   userId: string;
 };
 
@@ -51,6 +51,7 @@ export const context: ContextFunction<
     };
   }
 
+  console.info({ encodedToken });
   const token = verifyToken(encodedToken);
 
   return {
