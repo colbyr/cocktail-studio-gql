@@ -25,6 +25,11 @@ export const IngredientLoaders = new ScopedDataLoaders(({ sql, userId }) => {
 
   const ingredientsByUserId = new DataLoader<ID, Ingredient[]>(
     async (userIds) => {
+      if (userIds.some((id) => id !== userId)) {
+        throw new Error(
+          `User(${userId}) cannot query data for Users(${userIds})`,
+        );
+      }
       const results = zParseGroupById({
         ZType: ZIngredient,
         requestedIds: userIds,
