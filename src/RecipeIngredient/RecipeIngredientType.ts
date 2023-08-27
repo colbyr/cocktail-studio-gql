@@ -22,15 +22,14 @@ export const RecipeIngredientType = objectType({
 
     t.field('ingredient', {
       type: 'Ingredient',
-      resolve: async ({ ingredient_id, user_id }, _args, { sql }) => {
-        const result = await sql`
-          SELECT *
-          FROM ingredient
-          WHERE user_id = ${user_id}
-            AND id = ${ingredient_id}
-        `;
-        const [ingredient] = result;
-        return ZIngredient.parse(ingredient);
+      resolve: async ({ id, ingredient_id, user_id }, _args, { loaders }) => {
+        const ingredient = await loaders.ingredientById.load(ingredient_id);
+        if (!ingredient) {
+          throw new Error(
+            `RecipeIngredient(${id}) missing Ingredient(${ingredient_id})`,
+          );
+        }
+        return ingredient;
       },
     });
   },
