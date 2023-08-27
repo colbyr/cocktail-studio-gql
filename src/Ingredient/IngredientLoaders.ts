@@ -32,7 +32,7 @@ export const IngredientLoaders = new ScopedDataLoaders(({ sql, userId }) => {
         rows: await sql`
           SELECT *
           FROM ingredient
-          WHERE user_id = ${userId}
+          WHERE user_id IN ${sql(userIds)}
         `,
       });
       for (const group of results) {
