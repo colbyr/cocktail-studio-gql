@@ -4,20 +4,57 @@ import { ContextFunction } from '@apollo/server';
 import { StandaloneServerContextFunctionArgument } from '@apollo/server/dist/esm/standalone';
 import jwt from 'jsonwebtoken';
 import { Token, verifyToken } from './lib/TokenSchema';
+import * as loaderDefinitions from './loaders';
+import { ScopedDataLoaders } from './lib/ScopedDataLoaders';
+import DataLoader from 'dataloader';
 
-export type ContextAuthenticated = {
+export type ContextAuthenticated = Readonly<{
   sql: Sql;
   token: Token;
   userId: string;
-};
+}>;
 
-export type ContextUnauthenticated = {
+export type ContextUnauthenticated = Readonly<{
   sql: Sql;
   token: null;
   userId: null;
-};
+}>;
 
 export type Context = ContextAuthenticated | ContextUnauthenticated;
+
+type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) extends (
+  k: infer I,
+) => void
+  ? I
+  : never;
+
+type L = typeof loaderDefinitions;
+type LoaderInstances = UnionToIntersection<
+  ReturnType<L[keyof L]['makeLoaders']>
+>;
+
+function makeLoaders(
+  definitions: typeof loaderDefinitions,
+  context: Context,
+): LoaderInstances {
+  const result: Record<string, DataLoader<unknown, unknown, unknown>> = {};
+  for (const scoped of Object.values(definitions)) {
+    if (scoped instanceof ScopedDataLoaders) {
+      for (const [key, maybeLoader] of Object.entries(
+        scoped.makeLoaders(context),
+      )) {
+        if (maybeLoader instanceof DataLoader) {
+          result[key as keyof LoaderInstances] = maybeLoader;
+        }
+      }
+    }
+  }
+  return result as LoaderInstances;
+}
+
+export type ContextWithLoaders = Context & {
+  loaders: LoaderInstances;
+};
 
 const sql = postgres({
   user: Env.PG_USER,
@@ -33,7 +70,7 @@ const sql = postgres({
 
 export const context: ContextFunction<
   [StandaloneServerContextFunctionArgument]
-> = async function context({ req }): Promise<Context> {
+> = async function context({ req }): Promise<ContextWithLoaders> {
   const [, encodedToken] = req.headers.authorization?.split(' ') ?? [];
   const body: {
     operationName?: string;
@@ -44,18 +81,26 @@ export const context: ContextFunction<
   }
 
   if (!encodedToken) {
-    return {
+    const noAuthContext: ContextUnauthenticated = {
       sql,
       token: null,
       userId: null,
+    };
+    return {
+      ...noAuthContext,
+      loaders: makeLoaders(loaderDefinitions, noAuthContext),
     };
   }
 
   const token = verifyToken(encodedToken);
 
-  return {
+  const authedContext: ContextAuthenticated = {
     sql,
     token: token,
     userId: token.userId ?? '',
+  };
+  return {
+    ...authedContext,
+    loaders: makeLoaders(loaderDefinitions, authedContext),
   };
 };
