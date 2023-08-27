@@ -16,7 +16,9 @@ export const RecipeIngredientLoaders = new ScopedDataLoaders(
             FROM recipe_ingredient
             WHERE user_id = ${userId}
               AND recipe_id IN ${sql(recipeIds)}
-            ORDER BY amount_unit DESC
+            ORDER BY
+              amount_scale DESC,
+              amount_unit DESC
           `,
         });
       },

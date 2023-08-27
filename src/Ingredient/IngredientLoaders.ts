@@ -8,10 +8,10 @@ import {
 import { Ingredient, ZIngredient } from './Ingredient';
 
 export const IngredientLoaders = new ScopedDataLoaders(({ sql, userId }) => {
-  const ingredientById = new DataLoader<ID, Ingredient | null>(
+  const ingredientById = new DataLoader<ID, Ingredient | null | undefined>(
     async (ingredientIds) => {
       return zParseById({
-        ZType: ZIngredient,
+        ZType: ZIngredient.nullish(),
         requestedIds: ingredientIds,
         rows: await sql`
           SELECT *

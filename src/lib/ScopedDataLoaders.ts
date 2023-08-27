@@ -1,6 +1,6 @@
 import DataLoader from 'dataloader';
 import { Context } from '../Context';
-import { AnyZodObject, z } from 'zod';
+import { AnyZodObject, ZodAny, ZodNullableDef, ZodType, z } from 'zod';
 import { ID } from './ID';
 import { groupBy, indexBy } from 'ramda';
 import { Row, RowList } from 'postgres';
@@ -19,40 +19,35 @@ export class ScopedDataLoaders<
   }
 }
 
-export function zParseById<ZObject extends AnyZodObject>({
+export function zParseById<Z extends ZodType>({
   ZType,
   rows,
   requestedIds,
   id = 'id',
 }: {
-  ZType: ZObject;
+  ZType: Z;
   rows: RowList<Row[]>;
   requestedIds: readonly ID[];
   id?: string;
-}): (z.infer<ZObject> | null)[] {
+}): z.infer<Z>[] {
   const byId: Record<ID, (typeof rows)[number]> = indexBy(
     (row) => row[id],
     rows,
   );
-  return requestedIds.map((id) => {
-    if (!byId[id]) {
-      return null;
-    }
-    return ZType.parse(byId[id]);
-  });
+  return requestedIds.map((id) => ZType.parse(byId[id]));
 }
 
-export function zParseGroupById<ZObject extends AnyZodObject>({
+export function zParseGroupById<Z extends ZodType>({
   id,
   ZType,
   rows,
   requestedIds,
 }: {
-  ZType: ZObject;
+  ZType: Z;
   rows: RowList<Row[]>;
   requestedIds: readonly ID[];
   id: string;
-}): z.infer<ZObject>[][] {
+}): z.infer<Z>[][] {
   const groupsById = groupBy((row) => row[id], rows);
   return requestedIds.map((id) => {
     const rowGroup = groupsById[id];
