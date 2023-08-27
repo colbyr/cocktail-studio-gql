@@ -9,27 +9,25 @@ import {
 import { z } from 'zod';
 
 export const RecipeLoaders = new ScopedDataLoaders(({ sql, userId }) => {
-  const recipeById = new DataLoader<ID, Recipe | null | undefined>(
-    async (recipeIds) => {
-      return zParseById({
-        ZType: ZRecipe.nullish(),
-        requestedIds: recipeIds,
-        rows: await sql`
+  const recipeById = new DataLoader<ID, Recipe | null>(async (recipeIds) => {
+    return zParseById({
+      ZType: ZRecipe.nullable(),
+      requestedIds: recipeIds,
+      rows: await sql`
         SELECT *
         FROM recipe
         WHERE user_id = ${userId}
           AND id IN ${sql(recipeIds)}
       `,
-      });
-    },
-  );
+    });
+  });
 
   const recipeFallbackDescriptionById = new DataLoader<
     ID,
-    { recipe_id: ID; description: string } | null | undefined
+    { recipe_id: ID; description: string } | null
   >(async (recipeIds) => {
     const results = zParseById({
-      ZType: z.object({ recipe_id: ZID, description: z.string() }).nullish(),
+      ZType: z.object({ recipe_id: ZID, description: z.string() }).nullable(),
       requestedIds: recipeIds,
       id: 'recipe_id',
       rows: await sql`

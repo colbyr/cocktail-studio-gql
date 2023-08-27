@@ -1,8 +1,5 @@
 import { idArg, list, nullable, objectType } from 'nexus';
 import { join } from 'path';
-import { ZRecipe } from '../Recipe/Recipe';
-import { z } from 'zod';
-import { ZIngredient } from '../Ingredient/Ingredient';
 
 export const UserType = objectType({
   name: 'User',

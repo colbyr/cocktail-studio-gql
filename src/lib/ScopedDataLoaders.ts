@@ -34,7 +34,7 @@ export function zParseById<Z extends ZodType>({
     (row) => row[id],
     rows,
   );
-  return requestedIds.map((id) => ZType.parse(byId[id]));
+  return requestedIds.map((id) => ZType.parse(byId[id] ?? null));
 }
 
 export function zParseGroupById<Z extends ZodType>({
