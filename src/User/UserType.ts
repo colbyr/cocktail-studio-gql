@@ -20,17 +20,8 @@ export const UserType = objectType({
       args: {
         ingredientId: idArg(),
       },
-      resolve: async ({ id: userId }, { ingredientId }, { sql }) => {
-        const [ingredientRow] = await sql`
-          SELECT *
-          FROM ingredient
-          WHERE user_id = ${userId}
-            AND id = ${ingredientId}
-        `;
-        if (!ingredientRow) {
-          return null;
-        }
-        return ZIngredient.parse(ingredientRow);
+      resolve: async (_user, { ingredientId }, { loaders }) => {
+        return loaders.ingredientById.load(ingredientId);
       },
     });
 
@@ -51,17 +42,8 @@ export const UserType = objectType({
       args: {
         recipeId: idArg(),
       },
-      resolve: async ({ id: userId }, { recipeId }, { sql }) => {
-        const [recipeRow] = await sql`
-          SELECT *
-          FROM recipe
-          WHERE user_id = ${userId}
-            AND id = ${recipeId}
-        `;
-        if (!recipeRow) {
-          return null;
-        }
-        return ZRecipe.parse(recipeRow);
+      resolve: async (_user, { recipeId }, { loaders }) => {
+        return loaders.recipeById.load(recipeId);
       },
     });
 

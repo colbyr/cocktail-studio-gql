@@ -1,13 +1,21 @@
-import { Context, context } from '../Context';
 import DataLoader from 'dataloader';
 import { ID } from '../lib/ID';
-import { ScopedDataLoaders } from '../lib/ScopedDataLoaders';
-import { Ingredient } from './Ingredient';
+import { ScopedDataLoaders, zParseById } from '../lib/ScopedDataLoaders';
+import { Ingredient, ZIngredient } from './Ingredient';
 
-export const IngredientLoaders = new ScopedDataLoaders((context) => {
+export const IngredientLoaders = new ScopedDataLoaders(({ sql, userId }) => {
   const ingredientById = new DataLoader<ID, Ingredient | null>(
-    async (recipeIds) => {
-      return recipeIds.map(() => null);
+    async (ingredientIds) => {
+      return zParseById({
+        ZType: ZIngredient,
+        requestedIds: ingredientIds,
+        rows: await sql`
+          SELECT *
+          FROM ingredient
+          WHERE user_id = ${userId}
+            AND id IN ${sql(ingredientIds)}
+        `,
+      });
     },
   );
 
