@@ -47,6 +47,7 @@ export const RecipeType = objectType({
           FROM recipe_ingredient
           WHERE user_id = ${user_id}
             AND recipe_id = ${recipeId}
+          ORDER BY amount_unit DESC
         `;
         return z.array(ZRecipeIngredient).parse(result);
       },
