@@ -41,15 +41,8 @@ export const RecipeType = objectType({
 
     t.field('recipeIngredients', {
       type: list('RecipeIngredient'),
-      resolve: async ({ id: recipeId, user_id }, _args, { sql }) => {
-        const result = await sql`
-          SELECT *
-          FROM recipe_ingredient
-          WHERE user_id = ${user_id}
-            AND recipe_id = ${recipeId}
-          ORDER BY amount_unit DESC
-        `;
-        return z.array(ZRecipeIngredient).parse(result);
+      resolve: async ({ id: recipeId }, _args, { loaders }) => {
+        return loaders.recipeIngredientsByRecipeId.load(recipeId);
       },
     });
 
