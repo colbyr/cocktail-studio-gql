@@ -17,7 +17,7 @@ export const RecipeType = objectType({
       resolve: async (
         { description, id: recipe_id, user_id },
         _args,
-        { sql },
+        { loaders, sql },
       ) => {
         if (description) {
           return description;

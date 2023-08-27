@@ -4,7 +4,7 @@
  */
 
 
-import type { Context } from "./../src/Context"
+import type { ContextWithLoaders } from "./../src/Context"
 import type { Ingredient } from "./../src/Ingredient/Ingredient"
 import type { Recipe } from "./../src/Recipe/Recipe"
 import type { RecipeIngredient } from "./../src/RecipeIngredient/RecipeIngredient"
@@ -217,7 +217,7 @@ export type NexusGenFeaturesConfig = {
 }
 
 export interface NexusGenTypes {
-  context: Context;
+  context: ContextWithLoaders;
   inputTypes: NexusGenInputs;
   rootTypes: NexusGenRootTypes;
   inputTypeShapes: NexusGenInputs & NexusGenEnums & NexusGenScalars;

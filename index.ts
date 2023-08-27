@@ -9,7 +9,7 @@ import { context } from './src/Context';
 const schema = makeSchema({
   contextType: {
     module: join(__dirname, 'src/Context.ts'),
-    export: 'Context',
+    export: 'ContextWithLoaders',
   },
   nonNullDefaults: {
     input: true,
