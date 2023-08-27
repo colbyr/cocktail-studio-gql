@@ -50,6 +50,32 @@ export const RecipeLoaders = new ScopedDataLoaders(({ sql, userId }) => {
     return results;
   });
 
+  const recipesByIngredientId = new DataLoader<ID, Recipe[]>(
+    async (ingredientIds) => {
+      const results = zParseGroupById({
+        ZType: ZRecipe,
+        requestedIds: ingredientIds,
+        id: 'ingredient_id',
+        rows: await sql`
+          SELECT DISTINCT recipe_ingredient.ingredient_id, recipe.*
+          FROM recipe_ingredient
+          JOIN recipe ON (
+            recipe.user_id = recipe_ingredient.user_id
+            AND recipe.id = recipe_ingredient.recipe_id
+          )
+          WHERE recipe_ingredient.user_id = ${userId}
+            AND recipe_ingredient.ingredient_id IN ${sql(ingredientIds)}
+        `,
+      });
+      for (const group of results) {
+        for (const ingredient of group) {
+          recipeById.prime(ingredient.id, ingredient);
+        }
+      }
+      return results;
+    },
+  );
+
   const recipesByUserId = new DataLoader<ID, Recipe[]>(async (userIds) => {
     const results = zParseGroupById({
       ZType: ZRecipe,
@@ -69,5 +95,10 @@ export const RecipeLoaders = new ScopedDataLoaders(({ sql, userId }) => {
     return results;
   });
 
-  return { recipeById, recipeFallbackDescriptionById, recipesByUserId };
+  return {
+    recipeById,
+    recipeFallbackDescriptionById,
+    recipesByIngredientId,
+    recipesByUserId,
+  };
 });

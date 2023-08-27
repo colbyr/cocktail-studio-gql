@@ -33,18 +33,8 @@ export const IngredientType = objectType({
 
     t.field('recipes', {
       type: list('Recipe'),
-      resolve: async ({ id, user_id }, _args, { sql }) => {
-        const recipeRows = await sql`
-          SELECT DISTINCT recipe.*
-          FROM recipe_ingredient
-          JOIN recipe ON (
-            recipe.user_id = recipe_ingredient.user_id
-            AND recipe.id = recipe_ingredient.recipe_id
-          )
-          WHERE recipe_ingredient.user_id = ${user_id}
-            AND recipe_ingredient.ingredient_id = ${id}
-        `;
-        return z.array(ZRecipe).parse(recipeRows);
+      resolve: async ({ id }, _args, { loaders }) => {
+        return loaders.recipesByIngredientId.load(id);
       },
     });
   },

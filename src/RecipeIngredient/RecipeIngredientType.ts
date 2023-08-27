@@ -1,6 +1,5 @@
 import { nullable, objectType } from 'nexus';
 import { join } from 'path';
-import { ZIngredient } from '../Ingredient/Ingredient';
 
 export const RecipeIngredientType = objectType({
   name: 'RecipeIngredient',
