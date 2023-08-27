@@ -1,7 +1,5 @@
 import { list, objectType } from 'nexus';
 import { join } from 'path';
-import { z } from 'zod';
-import { ZRecipe } from '../Recipe/Recipe';
 
 export const IngredientType = objectType({
   name: 'Ingredient',
@@ -13,15 +11,11 @@ export const IngredientType = objectType({
     t.id('id');
 
     t.string('description', {
-      resolve: async ({ id, user_id }, _args, { sql }) => {
-        const [ingredientCount] = await sql`
-          SELECT ingredient_id, COUNT(*)
-          FROM recipe_ingredient
-          WHERE recipe_ingredient.user_id = ${user_id}
-            AND recipe_ingredient.ingredient_id = ${id}
-          GROUP BY ingredient_id
-        `;
-        const count = ingredientCount ? parseInt(ingredientCount.count) : 0;
+      resolve: async ({ id: ingredientId, user_id }, _args, { loaders }) => {
+        const ingredientCount = await loaders.recipesCountByIngredientId.load(
+          ingredientId,
+        );
+        const count = ingredientCount?.recipes_count ?? 0;
         if (count === 1) {
           return `${count} recipe`;
         }

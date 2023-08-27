@@ -68,13 +68,39 @@ export const RecipeLoaders = new ScopedDataLoaders(({ sql, userId }) => {
         `,
       });
       for (const group of results) {
-        for (const ingredient of group) {
-          recipeById.prime(ingredient.id, ingredient);
+        for (const recipe of group) {
+          recipeById.prime(recipe.id, recipe);
         }
       }
       return results;
     },
   );
+
+  const recipesCountByIngredientId = new DataLoader<
+    ID,
+    { ingredient_id: ID; recipes_count: number } | null
+  >(async (ingredientIds) => {
+    const results = zParseById({
+      ZType: z
+        .object({
+          ingredient_id: ZID,
+          recipes_count: z.coerce.number(),
+        })
+        .nullable(),
+      requestedIds: ingredientIds,
+      id: 'ingredient_id',
+      rows: await sql`
+        SELECT
+          recipe_ingredient.ingredient_id,
+          COUNT(DISTINCT recipe_ingredient.recipe_id) as recipes_count
+        FROM recipe_ingredient
+        WHERE recipe_ingredient.user_id = ${userId}
+          AND recipe_ingredient.ingredient_id IN ${sql(ingredientIds)}
+        GROUP BY recipe_ingredient.ingredient_id
+      `,
+    });
+    return results;
+  });
 
   const recipesByUserId = new DataLoader<ID, Recipe[]>(async (userIds) => {
     const results = zParseGroupById({
@@ -99,6 +125,7 @@ export const RecipeLoaders = new ScopedDataLoaders(({ sql, userId }) => {
     recipeById,
     recipeFallbackDescriptionById,
     recipesByIngredientId,
+    recipesCountByIngredientId,
     recipesByUserId,
   };
 });
