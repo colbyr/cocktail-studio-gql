@@ -27,13 +27,8 @@ export const UserType = objectType({
 
     t.field('ingredients', {
       type: list('Ingredient'),
-      resolve: async ({ id: userId }, _args, { sql }) => {
-        const ingredientRows = await sql`
-          SELECT *
-          FROM ingredient
-          WHERE user_id = ${userId}
-        `;
-        return z.array(ZIngredient).parse(ingredientRows);
+      resolve: async ({ id: userId }, _args, { loaders }) => {
+        return loaders.ingredientsByUserId.load(userId);
       },
     });
 
