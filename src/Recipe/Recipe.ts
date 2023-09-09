@@ -4,6 +4,7 @@ export const ZRecipe = z.object({
   id: z.coerce.string(),
   name: z.string(),
   description: z.string().nullable(),
+  directions: z.string().nullable(),
   user_id: z.coerce.string(),
 });
 

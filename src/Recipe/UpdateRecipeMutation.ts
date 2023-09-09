@@ -21,7 +21,7 @@ export const UpdateRecipeMutation = mutationField('updateRecipe', {
       const [recipe] = z.array(ZRecipe).parse(
         await sql`
           UPDATE recipe
-          SET ${sql({ name })}
+          SET ${sql({ name: name.trim() })}
           WHERE id = ${recipeId}
             AND user_id = ${userId}
           RETURNING *
@@ -43,7 +43,7 @@ export const UpdateRecipeMutation = mutationField('updateRecipe', {
           INSERT INTO ingredient
           ${sql(
             recipeIngredients.map(({ ingredientName }) => ({
-              name: ingredientName,
+              name: ingredientName.trim(),
               user_id: userId,
             })),
           )}
