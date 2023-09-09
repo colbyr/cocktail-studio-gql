@@ -92,6 +92,7 @@ export interface NexusGenFieldTypes {
   }
   Recipe: { // field return type
     description: string; // String!
+    directions: string; // String!
     id: string; // ID!
     name: string; // String!
     recipeIngredients: NexusGenRootTypes['RecipeIngredient'][]; // [RecipeIngredient!]!
@@ -139,6 +140,7 @@ export interface NexusGenFieldTypeNames {
   }
   Recipe: { // field return type name
     description: 'String'
+    directions: 'String'
     id: 'ID'
     name: 'String'
     recipeIngredients: 'RecipeIngredient'
@@ -162,6 +164,8 @@ export interface NexusGenFieldTypeNames {
 export interface NexusGenArgTypes {
   Mutation: {
     createRecipe: { // args
+      description?: string | null; // String
+      directions?: string | null; // String
       name: string; // String!
       recipeIngredients: NexusGenInputs['RecipeIngredientInput'][]; // [RecipeIngredientInput!]!
     }
@@ -177,6 +181,8 @@ export interface NexusGenArgTypes {
       password: string; // String!
     }
     updateRecipe: { // args
+      description?: string | null; // String
+      directions?: string | null; // String
       name: string; // String!
       recipeId: string; // ID!
       recipeIngredients: NexusGenInputs['RecipeIngredientInput'][]; // [RecipeIngredientInput!]!

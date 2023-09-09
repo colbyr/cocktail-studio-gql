@@ -25,6 +25,12 @@ export const RecipeType = objectType({
       },
     });
 
+    t.string('directions', {
+      resolve: async ({ directions }) => {
+        return directions ?? '';
+      },
+    });
+
     t.field('recipeIngredients', {
       type: list('RecipeIngredient'),
       resolve: async ({ id: recipeId }, _args, { loaders }) => {

@@ -1,4 +1,4 @@
-import { idArg, list, mutationField, stringArg } from 'nexus';
+import { idArg, list, mutationField, nullable, stringArg } from 'nexus';
 import { ZRecipe } from './Recipe';
 import { indexBy, reduce } from 'ramda';
 import { z } from 'zod';
@@ -10,18 +10,26 @@ export const UpdateRecipeMutation = mutationField('updateRecipe', {
   args: {
     recipeId: idArg(),
     name: stringArg(),
+    description: nullable(stringArg()),
+    directions: nullable(stringArg()),
     recipeIngredients: list('RecipeIngredientInput'),
   },
   resolve: async (
     _,
-    { recipeId, name, recipeIngredients },
-    { sql, userId, loaders },
+    {
+      recipeId,
+      name,
+      description = null,
+      directions = null,
+      recipeIngredients,
+    },
+    { sql, userId },
   ) => {
     return sql.begin(async (sql) => {
       const [recipe] = z.array(ZRecipe).parse(
         await sql`
           UPDATE recipe
-          SET ${sql({ name: name.trim() })}
+          SET ${sql({ name: name.trim(), description, directions })}
           WHERE id = ${recipeId}
             AND user_id = ${userId}
           RETURNING *

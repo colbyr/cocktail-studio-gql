@@ -30,12 +30,12 @@ type LoginResultSuccess {
 }
 
 type Mutation {
-  createRecipe(name: String!, recipeIngredients: [RecipeIngredientInput!]!): Recipe!
+  createRecipe(description: String, directions: String, name: String!, recipeIngredients: [RecipeIngredientInput!]!): Recipe!
   deleteRecipes(recipeIds: [ID!]!): [ID!]!
   login(email: String!, password: String!): LoginResult!
   loginAnonymous: LoginResult!
   signup(email: String!, password: String!): LoginResult!
-  updateRecipe(name: String!, recipeId: ID!, recipeIngredients: [RecipeIngredientInput!]!): Recipe!
+  updateRecipe(description: String, directions: String, name: String!, recipeId: ID!, recipeIngredients: [RecipeIngredientInput!]!): Recipe!
 }
 
 type Query {
@@ -44,6 +44,7 @@ type Query {
 
 type Recipe {
   description: String!
+  directions: String!
   id: ID!
   name: String!
   recipeIngredients: [RecipeIngredient!]!
