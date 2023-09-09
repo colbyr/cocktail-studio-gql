@@ -85,6 +85,7 @@ export interface NexusGenFieldTypes {
     login: NexusGenRootTypes['LoginResult']; // LoginResult!
     loginAnonymous: NexusGenRootTypes['LoginResult']; // LoginResult!
     signup: NexusGenRootTypes['LoginResult']; // LoginResult!
+    updateRecipe: NexusGenRootTypes['Recipe']; // Recipe!
   }
   Query: { // field return type
     me: NexusGenRootTypes['User']; // User!
@@ -131,6 +132,7 @@ export interface NexusGenFieldTypeNames {
     login: 'LoginResult'
     loginAnonymous: 'LoginResult'
     signup: 'LoginResult'
+    updateRecipe: 'Recipe'
   }
   Query: { // field return type name
     me: 'User'
@@ -173,6 +175,11 @@ export interface NexusGenArgTypes {
     signup: { // args
       email: string; // String!
       password: string; // String!
+    }
+    updateRecipe: { // args
+      name: string; // String!
+      recipeId: string; // ID!
+      recipeIngredients: NexusGenInputs['RecipeIngredientInput'][]; // [RecipeIngredientInput!]!
     }
   }
   User: {

@@ -13,6 +13,8 @@ export * from './Query/MeQueryField';
 export * from './Recipe/CreateRecipeMutation';
 export * from './Recipe/DeleteRecipeMutation';
 export * from './Recipe/RecipeType';
+export * from './Recipe/UpdateRecipeMutation';
+
 export * from './RecipeIngredient/RecipeIngredientType';
 export * from './RecipeIngredient/RecipeIngredientInputType';
 
