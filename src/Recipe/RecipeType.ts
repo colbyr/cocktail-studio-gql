@@ -16,12 +16,7 @@ export const RecipeType = objectType({
         _args,
         { loaders, sql },
       ) => {
-        if (description) {
-          return description;
-        }
-        const fallbackDescription =
-          await loaders.recipeFallbackDescriptionById.load(recipe_id);
-        return fallbackDescription?.description ?? '';
+        return description ?? '';
       },
     });
 
@@ -31,6 +26,8 @@ export const RecipeType = objectType({
       },
     });
 
+    t.string('name');
+
     t.field('recipeIngredients', {
       type: list('RecipeIngredient'),
       resolve: async ({ id: recipeId }, _args, { loaders }) => {
@@ -38,6 +35,20 @@ export const RecipeType = objectType({
       },
     });
 
-    t.string('name');
+    t.field('summary', {
+      type: 'String',
+      resolve: async (
+        { description, id: recipe_id, user_id },
+        _args,
+        { loaders, sql },
+      ) => {
+        if (description) {
+          return description;
+        }
+        const fallbackDescription =
+          await loaders.recipeFallbackDescriptionById.load(recipe_id);
+        return fallbackDescription?.description ?? '';
+      },
+    });
   },
 });

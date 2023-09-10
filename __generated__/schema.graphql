@@ -48,6 +48,7 @@ type Recipe {
   id: ID!
   name: String!
   recipeIngredients: [RecipeIngredient!]!
+  summary: String!
 }
 
 type RecipeIngredient {

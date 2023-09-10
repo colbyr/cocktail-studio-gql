@@ -96,6 +96,7 @@ export interface NexusGenFieldTypes {
     id: string; // ID!
     name: string; // String!
     recipeIngredients: NexusGenRootTypes['RecipeIngredient'][]; // [RecipeIngredient!]!
+    summary: string; // String!
   }
   RecipeIngredient: { // field return type
     amount: number; // Float!
@@ -144,6 +145,7 @@ export interface NexusGenFieldTypeNames {
     id: 'ID'
     name: 'String'
     recipeIngredients: 'RecipeIngredient'
+    summary: 'String'
   }
   RecipeIngredient: { // field return type name
     amount: 'Float'
