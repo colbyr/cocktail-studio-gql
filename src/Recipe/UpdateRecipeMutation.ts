@@ -16,20 +16,18 @@ export const UpdateRecipeMutation = mutationField('updateRecipe', {
   },
   resolve: async (
     _,
-    {
-      recipeId,
-      name,
-      description = null,
-      directions = null,
-      recipeIngredients,
-    },
+    { recipeId, name, description, directions, recipeIngredients },
     { sql, userId },
   ) => {
     return sql.begin(async (sql) => {
       const [recipe] = z.array(ZRecipe).parse(
         await sql`
           UPDATE recipe
-          SET ${sql({ name: name.trim(), description, directions })}
+          SET ${sql({
+            name: name.trim(),
+            description: description ?? '',
+            directions: directions ?? '',
+          })}
           WHERE id = ${recipeId}
             AND user_id = ${userId}
           RETURNING *

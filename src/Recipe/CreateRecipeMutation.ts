@@ -15,7 +15,7 @@ export const CreateRecipeMutation = mutationField('createRecipe', {
   },
   resolve: async (
     _,
-    { name, description = null, directions = null, recipeIngredients },
+    { name, description, directions, recipeIngredients },
     { sql, userId },
   ) => {
     return sql.begin(async (sql) => {
@@ -24,8 +24,8 @@ export const CreateRecipeMutation = mutationField('createRecipe', {
           INSERT INTO recipe
           ${sql({
             name: name.trim(),
-            description,
-            directions,
+            description: description ?? '',
+            directions: directions ?? '',
             user_id: userId,
           })}
           RETURNING *
