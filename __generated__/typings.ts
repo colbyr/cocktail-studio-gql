@@ -70,6 +70,7 @@ export interface NexusGenFieldTypes {
     description: string; // String!
     id: string; // ID!
     name: string; // String!
+    recipeIngredients: NexusGenRootTypes['RecipeIngredient'][]; // [RecipeIngredient!]!
     recipes: NexusGenRootTypes['Recipe'][]; // [Recipe!]!
   }
   LoginResultFailure: { // field return type
@@ -103,6 +104,7 @@ export interface NexusGenFieldTypes {
     amountScale: NexusGenEnums['AmountScale'] | null; // AmountScale
     id: string; // ID!
     ingredient: NexusGenRootTypes['Ingredient']; // Ingredient!
+    recipe: NexusGenRootTypes['Recipe']; // Recipe!
   }
   User: { // field return type
     email: string | null; // String
@@ -119,6 +121,7 @@ export interface NexusGenFieldTypeNames {
     description: 'String'
     id: 'ID'
     name: 'String'
+    recipeIngredients: 'RecipeIngredient'
     recipes: 'Recipe'
   }
   LoginResultFailure: { // field return type name
@@ -152,6 +155,7 @@ export interface NexusGenFieldTypeNames {
     amountScale: 'AmountScale'
     id: 'ID'
     ingredient: 'Ingredient'
+    recipe: 'Recipe'
   }
   User: { // field return type name
     email: 'String'

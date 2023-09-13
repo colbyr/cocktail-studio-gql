@@ -25,6 +25,13 @@ export const IngredientType = objectType({
 
     t.string('name');
 
+    t.field('recipeIngredients', {
+      type: list('RecipeIngredient'),
+      resolve: async ({ id: ingredientId }, _args, { loaders }) => {
+        return loaders.recipeIngredientsByIngredientId.load(ingredientId);
+      },
+    });
+
     t.field('recipes', {
       type: list('Recipe'),
       resolve: async ({ id }, _args, { loaders }) => {

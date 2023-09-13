@@ -15,6 +15,7 @@ type Ingredient {
   description: String!
   id: ID!
   name: String!
+  recipeIngredients: [RecipeIngredient!]!
   recipes: [Recipe!]!
 }
 
@@ -56,6 +57,7 @@ type RecipeIngredient {
   amountScale: AmountScale
   id: ID!
   ingredient: Ingredient!
+  recipe: Recipe!
 }
 
 input RecipeIngredientInput {

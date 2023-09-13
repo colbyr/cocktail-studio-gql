@@ -5,6 +5,23 @@ import { ID } from '../lib/ID';
 
 export const RecipeIngredientLoaders = new ScopedDataLoaders(
   ({ sql, userId }) => {
+    const recipeIngredientsByIngredientId = new DataLoader<
+      ID,
+      RecipeIngredient[]
+    >(async (ingredientIds) => {
+      return zParseGroupById({
+        ZType: ZRecipeIngredient,
+        requestedIds: ingredientIds,
+        id: 'ingredient_id',
+        rows: await sql`
+          SELECT *
+          FROM recipe_ingredient
+          WHERE user_id = ${userId}
+            AND ingredient_id IN ${sql(ingredientIds)}
+        `,
+      });
+    });
+
     const recipeIngredientsByRecipeId = new DataLoader<ID, RecipeIngredient[]>(
       async (recipeIds) => {
         return zParseGroupById({
@@ -24,6 +41,6 @@ export const RecipeIngredientLoaders = new ScopedDataLoaders(
       },
     );
 
-    return { recipeIngredientsByRecipeId };
+    return { recipeIngredientsByIngredientId, recipeIngredientsByRecipeId };
   },
 );

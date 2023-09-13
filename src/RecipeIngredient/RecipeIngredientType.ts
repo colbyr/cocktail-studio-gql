@@ -21,7 +21,7 @@ export const RecipeIngredientType = objectType({
 
     t.field('ingredient', {
       type: 'Ingredient',
-      resolve: async ({ id, ingredient_id, user_id }, _args, { loaders }) => {
+      resolve: async ({ id, ingredient_id }, _args, { loaders }) => {
         const ingredient = await loaders.ingredientById.load(ingredient_id);
         if (!ingredient) {
           throw new Error(
@@ -29,6 +29,19 @@ export const RecipeIngredientType = objectType({
           );
         }
         return ingredient;
+      },
+    });
+
+    t.field('recipe', {
+      type: 'Recipe',
+      resolve: async ({ id, recipe_id }, _args, { loaders }) => {
+        const recipe = await loaders.recipeById.load(recipe_id);
+        if (!recipe) {
+          throw new Error(
+            `Missing recipe ${recipe_id} on recipe_ingredient ${id}`,
+          );
+        }
+        return recipe;
       },
     });
   },

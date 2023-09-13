@@ -7,6 +7,7 @@ export const ZRecipeIngredient = z.object({
   amount: z.number(),
   amount_scale: ZAmountScale.nullable(),
   ingredient_id: ZID,
+  recipe_id: ZID,
   user_id: ZID,
 });
 
