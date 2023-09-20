@@ -153,7 +153,7 @@ export const RecipeLoaders = new ScopedDataLoaders(({ sql, userId }) => {
         FROM recipe
         WHERE user_id = ${queryUserId}
           AND deleted_at IS NOT NULL
-          AND deleted_at >= ${since.toISOString()}
+          AND deleted_at > ${since.toISOString()}
       `;
       const recipes = z.array(ZRecipe).parse(rows);
       for (const recipe of recipes) {
@@ -182,7 +182,7 @@ export const RecipeLoaders = new ScopedDataLoaders(({ sql, userId }) => {
         SELECT *
         FROM recipe
         WHERE user_id = ${queryUserId}
-          AND updated_at >= ${since.toISOString()}
+          AND updated_at > ${since.toISOString()}
           AND deleted_at IS NULL
       `;
       const recipes = z.array(ZRecipe).parse(rows);
