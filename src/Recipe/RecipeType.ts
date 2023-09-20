@@ -46,12 +46,13 @@ export const RecipeType = objectType({
         _args,
         { loaders, sql },
       ) => {
-        if (description) {
-          return description;
-        }
-        const fallbackDescription =
+        const userDescription = description ?? '';
+        const ingredientsDescription =
           await loaders.recipeFallbackDescriptionById.load(recipe_id);
-        return fallbackDescription?.description ?? '';
+        if (userDescription && ingredientsDescription) {
+          return `${userDescription} — ${ingredientsDescription}`;
+        }
+        return userDescription ?? ingredientsDescription ?? '';
       },
     });
   },
