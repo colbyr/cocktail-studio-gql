@@ -11,6 +11,11 @@ enum AmountScale {
   oz
 }
 
+type IndexUpdate {
+  deleted: [Recipe!]!
+  updated: [Recipe!]!
+}
+
 type Ingredient {
   description: String!
   id: ID!

@@ -39,6 +39,7 @@ export interface NexusGenScalars {
 }
 
 export interface NexusGenObjects {
+  IndexUpdate: {};
   Ingredient: Ingredient;
   LoginResultFailure: { // root type
     reason: string; // String!
@@ -66,6 +67,10 @@ export type NexusGenRootTypes = NexusGenObjects & NexusGenUnions
 export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars & NexusGenEnums
 
 export interface NexusGenFieldTypes {
+  IndexUpdate: { // field return type
+    deleted: NexusGenRootTypes['Recipe'][]; // [Recipe!]!
+    updated: NexusGenRootTypes['Recipe'][]; // [Recipe!]!
+  }
   Ingredient: { // field return type
     description: string; // String!
     id: string; // ID!
@@ -118,6 +123,10 @@ export interface NexusGenFieldTypes {
 }
 
 export interface NexusGenFieldTypeNames {
+  IndexUpdate: { // field return type name
+    deleted: 'Recipe'
+    updated: 'Recipe'
+  }
   Ingredient: { // field return type name
     description: 'String'
     id: 'ID'

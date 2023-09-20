@@ -45,5 +45,9 @@ export const UserType = objectType({
         return loaders.recipesByUserId.load(userId);
       },
     });
+
+    // t.field("updates", {
+    //   type:
+    // })
   },
 });
