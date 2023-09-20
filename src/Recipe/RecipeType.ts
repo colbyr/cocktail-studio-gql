@@ -49,10 +49,10 @@ export const RecipeType = objectType({
         const userDescription = description ?? '';
         const ingredientsDescription =
           await loaders.recipeFallbackDescriptionById.load(recipe_id);
-        if (userDescription && ingredientsDescription) {
-          return `${userDescription} — ${ingredientsDescription}`;
+        if (userDescription && ingredientsDescription?.description) {
+          return `${userDescription} — ${ingredientsDescription.description}`;
         }
-        return userDescription ?? ingredientsDescription ?? '';
+        return userDescription ?? ingredientsDescription?.description ?? '';
       },
     });
   },
