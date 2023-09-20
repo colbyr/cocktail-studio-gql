@@ -47,6 +47,7 @@ type Recipe {
   description: String!
   directions: String!
   id: ID!
+  isDeleted: Boolean!
   name: String!
   recipeIngredients: [RecipeIngredient!]!
   summary: String!

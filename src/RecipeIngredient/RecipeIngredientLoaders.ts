@@ -16,8 +16,13 @@ export const RecipeIngredientLoaders = new ScopedDataLoaders(
         rows: await sql`
           SELECT *
           FROM recipe_ingredient
-          WHERE user_id = ${userId}
-            AND ingredient_id IN ${sql(ingredientIds)}
+          JOIN recipe ON (
+            recipe.user_id = recipe_ingredient.user_id
+            AND recipe.id = recipe_ingredient.recipe_id
+          )
+          WHERE recipe_ingredient.user_id = ${userId}
+            AND recipe_ingredient.ingredient_id IN ${sql(ingredientIds)}
+            AND recipe.deleted_at IS NULL
         `,
       });
     });

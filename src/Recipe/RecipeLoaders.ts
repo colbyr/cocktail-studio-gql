@@ -65,6 +65,7 @@ export const RecipeLoaders = new ScopedDataLoaders(({ sql, userId }) => {
           )
           WHERE recipe_ingredient.user_id = ${userId}
             AND recipe_ingredient.ingredient_id IN ${sql(ingredientIds)}
+            AND recipe.deleted_at IS NULL
         `,
       });
       for (const group of results) {
@@ -94,8 +95,13 @@ export const RecipeLoaders = new ScopedDataLoaders(({ sql, userId }) => {
           recipe_ingredient.ingredient_id,
           COUNT(DISTINCT recipe_ingredient.recipe_id) as recipes_count
         FROM recipe_ingredient
+        JOIN recipe ON (
+          recipe.user_id = recipe_ingredient.user_id
+          AND recipe.id = recipe_ingredient.recipe_id
+        )
         WHERE recipe_ingredient.user_id = ${userId}
           AND recipe_ingredient.ingredient_id IN ${sql(ingredientIds)}
+          AND recipe.deleted_at IS NULL
         GROUP BY recipe_ingredient.ingredient_id
       `,
     });
@@ -116,6 +122,7 @@ export const RecipeLoaders = new ScopedDataLoaders(({ sql, userId }) => {
         SELECT *
         FROM recipe
         WHERE user_id IN ${sql(userIds)}
+          AND recipe.deleted_at IS NULL
       `,
     });
     for (const group of results) {

@@ -95,6 +95,7 @@ export interface NexusGenFieldTypes {
     description: string; // String!
     directions: string; // String!
     id: string; // ID!
+    isDeleted: boolean; // Boolean!
     name: string; // String!
     recipeIngredients: NexusGenRootTypes['RecipeIngredient'][]; // [RecipeIngredient!]!
     summary: string; // String!
@@ -146,6 +147,7 @@ export interface NexusGenFieldTypeNames {
     description: 'String'
     directions: 'String'
     id: 'ID'
+    isDeleted: 'Boolean'
     name: 'String'
     recipeIngredients: 'RecipeIngredient'
     summary: 'String'

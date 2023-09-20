@@ -27,6 +27,7 @@ export const UpdateRecipeMutation = mutationField('updateRecipe', {
             name: name.trim(),
             description: description ?? '',
             directions: directions ?? '',
+            updated_at: new Date().toISOString(),
           })}
           WHERE id = ${recipeId}
             AND user_id = ${userId}
