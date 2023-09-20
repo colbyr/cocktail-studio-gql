@@ -1,4 +1,4 @@
-import { idArg, list, nullable, objectType } from 'nexus';
+import { idArg, list, nullable, objectType, stringArg } from 'nexus';
 import { join } from 'path';
 
 export const UserType = objectType({
@@ -46,8 +46,38 @@ export const UserType = objectType({
       },
     });
 
-    // t.field("updates", {
-    //   type:
-    // })
+    t.field('recipesDeletedSince', {
+      type: list('Recipe'),
+      args: {
+        since: stringArg(),
+      },
+      resolve: async (user, { since: sinceStr }, { loaders }) => {
+        const since = new Date(sinceStr);
+        if (isNaN(since.getTime())) {
+          throw new Error(`since "${sinceStr}" is not a valid date`);
+        }
+        return loaders.recipesDeletedSince.load({
+          userId: user.id,
+          since,
+        });
+      },
+    });
+
+    t.field('recipesUpdatedSince', {
+      type: list('Recipe'),
+      args: {
+        since: stringArg(),
+      },
+      resolve: async (user, { since: sinceStr }, { loaders }) => {
+        const since = new Date(sinceStr);
+        if (isNaN(since.getTime())) {
+          throw new Error(`since "${sinceStr}" is not a valid date`);
+        }
+        return loaders.recipesUpdatedSince.load({
+          userId: user.id,
+          since,
+        });
+      },
+    });
   },
 });

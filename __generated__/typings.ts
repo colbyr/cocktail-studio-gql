@@ -39,7 +39,6 @@ export interface NexusGenScalars {
 }
 
 export interface NexusGenObjects {
-  IndexUpdate: {};
   Ingredient: Ingredient;
   LoginResultFailure: { // root type
     reason: string; // String!
@@ -67,10 +66,6 @@ export type NexusGenRootTypes = NexusGenObjects & NexusGenUnions
 export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars & NexusGenEnums
 
 export interface NexusGenFieldTypes {
-  IndexUpdate: { // field return type
-    deleted: NexusGenRootTypes['Recipe'][]; // [Recipe!]!
-    updated: NexusGenRootTypes['Recipe'][]; // [Recipe!]!
-  }
   Ingredient: { // field return type
     description: string; // String!
     id: string; // ID!
@@ -119,14 +114,12 @@ export interface NexusGenFieldTypes {
     ingredients: NexusGenRootTypes['Ingredient'][]; // [Ingredient!]!
     recipeById: NexusGenRootTypes['Recipe'] | null; // Recipe
     recipes: NexusGenRootTypes['Recipe'][]; // [Recipe!]!
+    recipesDeletedSince: NexusGenRootTypes['Recipe'][]; // [Recipe!]!
+    recipesUpdatedSince: NexusGenRootTypes['Recipe'][]; // [Recipe!]!
   }
 }
 
 export interface NexusGenFieldTypeNames {
-  IndexUpdate: { // field return type name
-    deleted: 'Recipe'
-    updated: 'Recipe'
-  }
   Ingredient: { // field return type name
     description: 'String'
     id: 'ID'
@@ -175,6 +168,8 @@ export interface NexusGenFieldTypeNames {
     ingredients: 'Ingredient'
     recipeById: 'Recipe'
     recipes: 'Recipe'
+    recipesDeletedSince: 'Recipe'
+    recipesUpdatedSince: 'Recipe'
   }
 }
 
@@ -211,6 +206,12 @@ export interface NexusGenArgTypes {
     }
     recipeById: { // args
       recipeId: string; // ID!
+    }
+    recipesDeletedSince: { // args
+      since: string; // String!
+    }
+    recipesUpdatedSince: { // args
+      since: string; // String!
     }
   }
 }

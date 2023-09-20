@@ -133,11 +133,74 @@ export const RecipeLoaders = new ScopedDataLoaders(({ sql, userId }) => {
     return results;
   });
 
+  const recipesDeletedSince = new DataLoader<
+    { userId: ID; since: Date },
+    Recipe[]
+  >(
+    async (keys) => {
+      if (keys.length > 1) {
+        throw new Error('this loader only supports one key at a time');
+      }
+      const [{ userId: queryUserId, since }] = keys;
+      if (queryUserId !== userId) {
+        throw new Error(
+          `User(${userId}) cannot query data for Users(${queryUserId})`,
+        );
+      }
+
+      const rows = await sql`
+        SELECT *
+        FROM recipe
+        WHERE user_id = ${queryUserId}
+          AND deleted_at IS NOT NULL
+          AND deleted_at >= ${since.toISOString()}
+      `;
+      const recipes = z.array(ZRecipe).parse(rows);
+      for (const recipe of recipes) {
+        recipeById.prime(recipe.id, recipe);
+      }
+      return [recipes];
+    },
+    { maxBatchSize: 1 },
+  );
+
+  const recipesUpdatedSince = new DataLoader<
+    { userId: ID; since: Date },
+    Recipe[]
+  >(
+    async (keys) => {
+      if (keys.length > 1) {
+        throw new Error('this loader only supports one key at a time');
+      }
+      const [{ userId: queryUserId, since }] = keys;
+      if (queryUserId !== userId) {
+        throw new Error(
+          `User(${userId}) cannot query data for Users(${queryUserId})`,
+        );
+      }
+      const rows = await sql`
+        SELECT *
+        FROM recipe
+        WHERE user_id = ${queryUserId}
+          AND updated_at >= ${since.toISOString()}
+          AND deleted_at IS NULL
+      `;
+      const recipes = z.array(ZRecipe).parse(rows);
+      for (const recipe of recipes) {
+        recipeById.prime(recipe.id, recipe);
+      }
+      return [recipes];
+    },
+    { maxBatchSize: 1 },
+  );
+
   return {
     recipeById,
     recipeFallbackDescriptionById,
     recipesByIngredientId,
     recipesCountByIngredientId,
     recipesByUserId,
+    recipesDeletedSince,
+    recipesUpdatedSince,
   };
 });
