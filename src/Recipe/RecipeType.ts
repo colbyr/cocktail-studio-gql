@@ -52,7 +52,7 @@ export const RecipeType = objectType({
         if (userDescription && ingredientsDescription?.description) {
           return `${userDescription} — ${ingredientsDescription.description}`;
         }
-        return userDescription ?? ingredientsDescription?.description ?? '';
+        return userDescription || ingredientsDescription?.description || '';
       },
     });
   },
