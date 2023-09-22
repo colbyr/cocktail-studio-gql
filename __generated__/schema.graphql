@@ -17,6 +17,7 @@ type Ingredient {
   name: String!
   recipeIngredients: [RecipeIngredient!]!
   recipes: [Recipe!]!
+  uri: String!
 }
 
 union LoginResult = LoginResultFailure | LoginResultSuccess
@@ -51,6 +52,7 @@ type Recipe {
   name: String!
   recipeIngredients: [RecipeIngredient!]!
   summary: String!
+  uri: String!
 }
 
 type RecipeIngredient {

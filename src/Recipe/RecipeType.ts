@@ -55,5 +55,12 @@ export const RecipeType = objectType({
         return userDescription || ingredientsDescription?.description || '';
       },
     });
+
+    t.field('uri', {
+      type: 'String',
+      resolve: ({ id, user_id }) => {
+        return `/${user_id}/recipe/${id}`;
+      },
+    });
   },
 });

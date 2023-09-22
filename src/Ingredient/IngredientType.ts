@@ -38,5 +38,12 @@ export const IngredientType = objectType({
         return loaders.recipesByIngredientId.load(id);
       },
     });
+
+    t.field('uri', {
+      type: 'String',
+      resolve: ({ id, user_id }) => {
+        return `/${user_id}/ingredient/${id}`;
+      },
+    });
   },
 });

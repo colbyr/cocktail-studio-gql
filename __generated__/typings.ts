@@ -72,6 +72,7 @@ export interface NexusGenFieldTypes {
     name: string; // String!
     recipeIngredients: NexusGenRootTypes['RecipeIngredient'][]; // [RecipeIngredient!]!
     recipes: NexusGenRootTypes['Recipe'][]; // [Recipe!]!
+    uri: string; // String!
   }
   LoginResultFailure: { // field return type
     reason: string; // String!
@@ -99,6 +100,7 @@ export interface NexusGenFieldTypes {
     name: string; // String!
     recipeIngredients: NexusGenRootTypes['RecipeIngredient'][]; // [RecipeIngredient!]!
     summary: string; // String!
+    uri: string; // String!
   }
   RecipeIngredient: { // field return type
     amount: number; // Float!
@@ -126,6 +128,7 @@ export interface NexusGenFieldTypeNames {
     name: 'String'
     recipeIngredients: 'RecipeIngredient'
     recipes: 'Recipe'
+    uri: 'String'
   }
   LoginResultFailure: { // field return type name
     reason: 'String'
@@ -153,6 +156,7 @@ export interface NexusGenFieldTypeNames {
     name: 'String'
     recipeIngredients: 'RecipeIngredient'
     summary: 'String'
+    uri: 'String'
   }
   RecipeIngredient: { // field return type name
     amount: 'Float'
