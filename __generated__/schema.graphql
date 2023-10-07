@@ -18,6 +18,7 @@ type Ingredient {
   name: String!
   recipeIngredients: [RecipeIngredient!]!
   recipes: [Recipe!]!
+  recipesCount: Int!
   summary: String!
   uri: String!
 }

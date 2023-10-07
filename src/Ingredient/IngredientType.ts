@@ -38,6 +38,16 @@ export const IngredientType = objectType({
       },
     });
 
+    t.field('recipesCount', {
+      type: 'Int',
+      resolve: async ({ id: ingredientId }, _args, { loaders }) => {
+        const ingredientCount = await loaders.recipesCountByIngredientId.load(
+          ingredientId,
+        );
+        return ingredientCount?.recipes_count ?? 0;
+      },
+    });
+
     t.string('summary', {
       resolve: async (
         { id: ingredientId, description, user_id },

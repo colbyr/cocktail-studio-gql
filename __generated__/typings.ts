@@ -73,6 +73,7 @@ export interface NexusGenFieldTypes {
     name: string; // String!
     recipeIngredients: NexusGenRootTypes['RecipeIngredient'][]; // [RecipeIngredient!]!
     recipes: NexusGenRootTypes['Recipe'][]; // [Recipe!]!
+    recipesCount: number; // Int!
     summary: string; // String!
     uri: string; // String!
   }
@@ -134,6 +135,7 @@ export interface NexusGenFieldTypeNames {
     name: 'String'
     recipeIngredients: 'RecipeIngredient'
     recipes: 'Recipe'
+    recipesCount: 'Int'
     summary: 'String'
     uri: 'String'
   }
