@@ -86,6 +86,7 @@ export interface NexusGenFieldTypes {
   Mutation: { // field return type
     createIngredient: NexusGenRootTypes['Ingredient']; // Ingredient!
     createRecipe: NexusGenRootTypes['Recipe']; // Recipe!
+    deleteIngredients: string[]; // [ID!]!
     deleteRecipes: string[]; // [ID!]!
     login: NexusGenRootTypes['LoginResult']; // LoginResult!
     loginAnonymous: NexusGenRootTypes['LoginResult']; // LoginResult!
@@ -145,6 +146,7 @@ export interface NexusGenFieldTypeNames {
   Mutation: { // field return type name
     createIngredient: 'Ingredient'
     createRecipe: 'Recipe'
+    deleteIngredients: 'ID'
     deleteRecipes: 'ID'
     login: 'LoginResult'
     loginAnonymous: 'LoginResult'
@@ -195,6 +197,9 @@ export interface NexusGenArgTypes {
       directions?: string | null; // String
       name: string; // String!
       recipeIngredients: NexusGenInputs['RecipeIngredientInput'][]; // [RecipeIngredientInput!]!
+    }
+    deleteIngredients: { // args
+      ingredientIds: string[]; // [ID!]!
     }
     deleteRecipes: { // args
       recipeIds: string[]; // [ID!]!

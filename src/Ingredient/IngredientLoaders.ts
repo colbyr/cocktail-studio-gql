@@ -38,6 +38,7 @@ export const IngredientLoaders = new ScopedDataLoaders(({ sql, userId }) => {
           SELECT *
           FROM ingredient
           WHERE user_id IN ${sql(userIds)}
+            AND deleted_at IS NULL
         `,
       });
       for (const group of results) {

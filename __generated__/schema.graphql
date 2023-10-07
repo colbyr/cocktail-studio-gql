@@ -36,6 +36,7 @@ type LoginResultSuccess {
 type Mutation {
   createIngredient(description: String, directions: String, name: String!): Ingredient!
   createRecipe(description: String, directions: String, name: String!, recipeIngredients: [RecipeIngredientInput!]!): Recipe!
+  deleteIngredients(ingredientIds: [ID!]!): [ID!]!
   deleteRecipes(recipeIds: [ID!]!): [ID!]!
   login(email: String!, password: String!): LoginResult!
   loginAnonymous: LoginResult!
