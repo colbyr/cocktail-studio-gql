@@ -1,5 +1,6 @@
 export * from './AmountScale/AmountScaleEnumType';
 
+export * from './Ingredient/CreateIngredientMutation';
 export * from './Ingredient/IngredientType';
 
 export * from './Login/LoginAnonymousMutation';

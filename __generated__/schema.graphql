@@ -13,10 +13,12 @@ enum AmountScale {
 
 type Ingredient {
   description: String!
+  directions: String!
   id: ID!
   name: String!
   recipeIngredients: [RecipeIngredient!]!
   recipes: [Recipe!]!
+  summary: String!
   uri: String!
 }
 
@@ -32,6 +34,7 @@ type LoginResultSuccess {
 }
 
 type Mutation {
+  createIngredient(description: String, directions: String, name: String!): Ingredient!
   createRecipe(description: String, directions: String, name: String!, recipeIngredients: [RecipeIngredientInput!]!): Recipe!
   deleteRecipes(recipeIds: [ID!]!): [ID!]!
   login(email: String!, password: String!): LoginResult!

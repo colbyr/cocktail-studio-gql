@@ -11,17 +11,13 @@ export const RecipeType = objectType({
     t.id('id');
 
     t.string('description', {
-      resolve: async (
-        { description, id: recipe_id, user_id },
-        _args,
-        { loaders, sql },
-      ) => {
+      resolve: ({ description }) => {
         return description ?? '';
       },
     });
 
     t.string('directions', {
-      resolve: async ({ directions }) => {
+      resolve: ({ directions }) => {
         return directions ?? '';
       },
     });

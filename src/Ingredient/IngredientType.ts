@@ -11,15 +11,14 @@ export const IngredientType = objectType({
     t.id('id');
 
     t.string('description', {
-      resolve: async ({ id: ingredientId, user_id }, _args, { loaders }) => {
-        const ingredientCount = await loaders.recipesCountByIngredientId.load(
-          ingredientId,
-        );
-        const count = ingredientCount?.recipes_count ?? 0;
-        if (count === 1) {
-          return `${count} recipe`;
-        }
-        return `${count} recipes`;
+      resolve: ({ description }) => {
+        return description ?? '';
+      },
+    });
+
+    t.string('directions', {
+      resolve: ({ directions }) => {
+        return directions ?? '';
       },
     });
 
@@ -36,6 +35,24 @@ export const IngredientType = objectType({
       type: list('Recipe'),
       resolve: async ({ id }, _args, { loaders }) => {
         return loaders.recipesByIngredientId.load(id);
+      },
+    });
+
+    t.string('summary', {
+      resolve: async (
+        { id: ingredientId, description, user_id },
+        _args,
+        { loaders },
+      ) => {
+        const ingredientCount = await loaders.recipesCountByIngredientId.load(
+          ingredientId,
+        );
+        const count = ingredientCount?.recipes_count ?? 0;
+        const countStr = count === 1 ? `${count} recipe` : `${count} recipes`;
+        if (description) {
+          return `${description} — ${countStr}`;
+        }
+        return countStr;
       },
     });
 
