@@ -3,6 +3,7 @@ export * from './AmountScale/AmountScaleEnumType';
 export * from './Ingredient/CreateIngredientMutation';
 export * from './Ingredient/DeleteIngredientMutation';
 export * from './Ingredient/IngredientType';
+export * from './Ingredient/UpdateIngredientMutation';
 
 export * from './Login/LoginAnonymousMutation';
 export * from './Login/LoginMutation';
