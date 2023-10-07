@@ -110,7 +110,7 @@ export interface NexusGenFieldTypes {
   }
   RecipeIngredient: { // field return type
     amount: number; // Float!
-    amountScale: NexusGenEnums['AmountScale'] | null; // AmountScale
+    amountScale: NexusGenEnums['AmountScale']; // AmountScale!
     id: string; // ID!
     ingredient: NexusGenRootTypes['Ingredient']; // Ingredient!
     recipe: NexusGenRootTypes['Recipe']; // Recipe!

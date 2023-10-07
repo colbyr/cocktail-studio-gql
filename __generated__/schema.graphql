@@ -64,7 +64,7 @@ type Recipe {
 
 type RecipeIngredient {
   amount: Float!
-  amountScale: AmountScale
+  amountScale: AmountScale!
   id: ID!
   ingredient: Ingredient!
   recipe: Recipe!

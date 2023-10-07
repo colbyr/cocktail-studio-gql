@@ -13,7 +13,7 @@ export const RecipeIngredientType = objectType({
     t.float('amount');
 
     t.field('amountScale', {
-      type: nullable('AmountScale'),
+      type: 'AmountScale',
       resolve: async ({ amount_scale }) => {
         return amount_scale;
       },
