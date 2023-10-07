@@ -7,7 +7,7 @@ export const RecipeIngredientInputType = inputObjectType({
 
     t.field({
       name: 'amountScale',
-      type: nullable('AmountScale'),
+      type: 'AmountScale',
     });
 
     t.string('ingredientName');

@@ -5,7 +5,7 @@ import { ZAmountScale } from '../AmountScale/AmountScale';
 export const ZRecipeIngredient = z.object({
   id: ZID,
   amount: z.number(),
-  amount_scale: ZAmountScale.nullable(),
+  amount_scale: ZAmountScale,
   ingredient_id: ZID,
   recipe_id: ZID,
   user_id: ZID,

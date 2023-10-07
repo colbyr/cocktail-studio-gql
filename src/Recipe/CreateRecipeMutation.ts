@@ -73,7 +73,7 @@ export const CreateRecipeMutation = mutationField('createRecipe', {
               recipe_id: recipe.id,
               user_id: userId,
               amount,
-              amount_scale: amountScale,
+              amount_scale: amountScale === 'one' ? '1' : amountScale,
             })),
           )}
         `;

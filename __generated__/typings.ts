@@ -21,13 +21,13 @@ declare global {
 export interface NexusGenInputs {
   RecipeIngredientInput: { // input type
     amount: number; // Float!
-    amountScale?: NexusGenEnums['AmountScale'] | null; // AmountScale
+    amountScale: NexusGenEnums['AmountScale']; // AmountScale!
     ingredientName: string; // String!
   }
 }
 
 export interface NexusGenEnums {
-  AmountScale: "dash" | "drop" | "floz" | "g" | "mL" | "oz"
+  AmountScale: "dash" | "drop" | "floz" | "g" | "mL" | "one" | "oz"
 }
 
 export interface NexusGenScalars {
