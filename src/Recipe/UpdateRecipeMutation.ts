@@ -1,6 +1,6 @@
 import { idArg, list, mutationField, nullable, stringArg } from 'nexus';
 import { ZRecipe } from './Recipe';
-import { indexBy, reduce } from 'ramda';
+import { indexBy } from 'ramda';
 import { z } from 'zod';
 import { requireAuth } from '../lib/Authorize';
 

@@ -1,4 +1,4 @@
-import { idArg, list, mutationField, nullable, stringArg } from 'nexus';
+import { idArg, mutationField, nullable, stringArg } from 'nexus';
 import { z } from 'zod';
 import { requireAuth } from '../lib/Authorize';
 import { ZIngredient } from './Ingredient';
