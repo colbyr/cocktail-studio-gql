@@ -12,16 +12,37 @@ export const RecipeIngredientLoaders = new ScopedDataLoaders(
       return zParseGroupById({
         ZType: ZRecipeIngredient,
         requestedIds: ingredientIds,
-        id: 'ingredient_id',
+        id: 'lookup_id',
         rows: await sql`
-          SELECT *
+          WITH RECURSIVE related_ingredients AS (
+            SELECT
+              id as lookup_id,
+              id as id
+            FROM ingredient
+            WHERE user_id = ${userId}
+              AND id IN ${sql(ingredientIds)}
+
+            UNION
+
+            SELECT
+              related_ingredients.lookup_id,
+              ingredient.id
+            FROM ingredient
+            JOIN related_ingredients ON (ingredient.type_of_ingredient_id = related_ingredients.id)
+          )
+
+          SELECT
+            related_ingredients.lookup_id,
+            recipe_ingredient.*
           FROM recipe_ingredient
+          JOIN related_ingredients ON (
+            related_ingredients.id = recipe_ingredient.ingredient_id
+          )
           JOIN recipe ON (
             recipe.user_id = recipe_ingredient.user_id
             AND recipe.id = recipe_ingredient.recipe_id
           )
-          WHERE recipe_ingredient.user_id = ${userId}
-            AND recipe_ingredient.ingredient_id IN ${sql(ingredientIds)}
+          WHERE recipe.user_id = ${userId}
             AND recipe.deleted_at IS NULL
         `,
       });
