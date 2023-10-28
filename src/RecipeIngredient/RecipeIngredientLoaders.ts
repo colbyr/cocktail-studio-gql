@@ -29,7 +29,6 @@ export const RecipeIngredientLoaders = new ScopedDataLoaders(
               ingredient.id
             FROM ingredient
             JOIN related_ingredients ON (ingredient.type_of_ingredient_id = related_ingredients.id)
-            WHERE ingredient.deleted_at IS NULL
           )
 
           SELECT DISTINCT
@@ -44,7 +43,6 @@ export const RecipeIngredientLoaders = new ScopedDataLoaders(
             AND recipe.id = recipe_ingredient.recipe_id
           )
           WHERE recipe.user_id = ${userId}
-            AND recipe.deleted_at IS NULL
         `,
       });
     });
