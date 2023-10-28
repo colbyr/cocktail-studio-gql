@@ -22,8 +22,7 @@ export const DeleteIngredientsMutation = mutationField('deleteIngredients', {
     }
 
     await sql`
-      UPDATE ingredient
-      SET updated_at = NOW(), deleted_at = NOW()
+      DELETE FROM ingredient
       WHERE user_id = ${userId}
         AND id IN (${sql(ingredientIds)})
     `;

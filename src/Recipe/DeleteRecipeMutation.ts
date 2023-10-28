@@ -9,8 +9,7 @@ export const DeleteRecipesMutation = mutationField('deleteRecipes', {
   },
   resolve: async (_, { recipeIds }, { sql, userId }) => {
     await sql`
-      UPDATE recipe
-      SET updated_at = NOW(), deleted_at = NOW()
+      DELETE FROM recipe
       WHERE user_id = ${userId}
         AND id IN (${sql(recipeIds)})
     `;
