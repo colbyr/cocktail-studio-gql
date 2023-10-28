@@ -32,7 +32,7 @@ export const RecipeIngredientLoaders = new ScopedDataLoaders(
             WHERE ingredient.deleted_at IS NULL
           )
 
-          SELECT
+          SELECT DISTINCT
             related_ingredients.lookup_id,
             recipe_ingredient.*
           FROM recipe_ingredient

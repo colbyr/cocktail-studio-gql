@@ -109,12 +109,12 @@ export const RecipeLoaders = new ScopedDataLoaders(({ sql, userId }) => {
             related_ingredients.user_id = ingredient.user_id
             AND related_ingredients.id = ingredient.type_of_ingredient_id
           )
-          WHERE ingreient.deleted_at IS NULL
+          WHERE ingredient.deleted_at IS NULL
         )
 
         SELECT
           related_ingredients.lookup_id as ingredient_id,
-          COUNT(*) as recipes_count
+          COUNT(DISTINCT recipe.id) as recipes_count
         FROM related_ingredients
         JOIN recipe_ingredient ON (
           recipe_ingredient.user_id = related_ingredients.user_id
