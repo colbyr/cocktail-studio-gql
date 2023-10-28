@@ -76,6 +76,13 @@ export const IngredientType = objectType({
       },
     });
 
+    t.field('types', {
+      type: list('Ingredient'),
+      resolve: async ({ id: ingredient_id, user_id }, _args, { loaders }) => {
+        return loaders.ingredientByTypeOfId.load(ingredient_id);
+      },
+    });
+
     t.field('uri', {
       type: 'String',
       resolve: ({ id, user_id }) => {

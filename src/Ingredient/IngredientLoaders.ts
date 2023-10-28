@@ -23,6 +23,22 @@ export const IngredientLoaders = new ScopedDataLoaders(({ sql, userId }) => {
     },
   );
 
+  const ingredientByTypeOfId = new DataLoader<ID, Ingredient[]>(
+    async (ingredientIds) => {
+      return zParseGroupById({
+        id: 'type_of_ingredient_id',
+        ZType: ZIngredient,
+        requestedIds: ingredientIds,
+        rows: await sql`
+          SELECT *
+          FROM ingredient
+          WHERE user_id = ${userId}
+            AND type_of_ingredient_id IN ${sql(ingredientIds)}
+        `,
+      });
+    },
+  );
+
   const ingredientsByUserId = new DataLoader<ID, Ingredient[]>(
     async (userIds) => {
       if (userIds.some((id) => id !== userId)) {
@@ -50,5 +66,5 @@ export const IngredientLoaders = new ScopedDataLoaders(({ sql, userId }) => {
     },
   );
 
-  return { ingredientById, ingredientsByUserId };
+  return { ingredientById, ingredientByTypeOfId, ingredientsByUserId };
 });
