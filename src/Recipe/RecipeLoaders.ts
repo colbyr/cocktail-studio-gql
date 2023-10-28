@@ -89,27 +89,35 @@ export const RecipeLoaders = new ScopedDataLoaders(({ sql, userId }) => {
         })
         .nullable(),
       requestedIds: ingredientIds,
-      id: 'lookup_id',
+      id: 'ingredient_id',
       rows: await sql`
         WITH RECURSIVE related_ingredients AS (
           SELECT
             id as lookup_id,
-            id as id
+            id as id,
+            user_id
           FROM ingredient
           WHERE user_id = ${userId}
             AND id IN ${sql(ingredientIds)}
           UNION
           SELECT
             related_ingredients.lookup_id,
-            ingredient.id
+            ingredient.id,
+            ingredient.user_id
           FROM ingredient
-          JOIN related_ingredients ON (ingredient.type_of_ingredient_id = related_ingredients.id)
+          JOIN related_ingredients ON (
+            related_ingredients.user_id = ingredient.user_id
+            AND related_ingredients.id = ingredient.type_of_ingredient_id
+          )
         )
 
-        SELECT related_ingredients.lookup_id, COUNT(*)
+        SELECT
+          related_ingredients.lookup_id as ingredient_id,
+          COUNT(*) as recipes_count
         FROM related_ingredients
         JOIN recipe_ingredient ON (
-          recipe_ingredient.ingredient_id = related_ingredients.id
+          recipe_ingredient.user_id = related_ingredients.user_id
+          AND recipe_ingredient.ingredient_id = related_ingredients.id
         )
         JOIN recipe ON (
           recipe.user_id = recipe_ingredient.user_id
