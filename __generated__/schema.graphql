@@ -21,6 +21,7 @@ type Ingredient {
   recipes: [Recipe!]!
   recipesCount: Int!
   summary: String!
+  typeOf: Ingredient
   uri: String!
 }
 

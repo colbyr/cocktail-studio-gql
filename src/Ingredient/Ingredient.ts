@@ -7,6 +7,7 @@ export const ZIngredient = z.object({
   description: z.string().nullable(),
   directions: z.string().nullable(),
   name: z.string(),
+  type_of_ingredient_id: z.string(),
   updated_at: z.date(),
   user_id: ZID,
 });

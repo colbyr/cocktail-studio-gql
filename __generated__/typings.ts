@@ -75,6 +75,7 @@ export interface NexusGenFieldTypes {
     recipes: NexusGenRootTypes['Recipe'][]; // [Recipe!]!
     recipesCount: number; // Int!
     summary: string; // String!
+    typeOf: NexusGenRootTypes['Ingredient'] | null; // Ingredient
     uri: string; // String!
   }
   LoginResultFailure: { // field return type
@@ -137,6 +138,7 @@ export interface NexusGenFieldTypeNames {
     recipes: 'Recipe'
     recipesCount: 'Int'
     summary: 'String'
+    typeOf: 'Ingredient'
     uri: 'String'
   }
   LoginResultFailure: { // field return type name

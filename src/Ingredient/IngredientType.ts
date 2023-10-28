@@ -1,4 +1,4 @@
-import { list, objectType } from 'nexus';
+import { list, nullable, objectType } from 'nexus';
 import { join } from 'path';
 
 export const IngredientType = objectType({
@@ -63,6 +63,16 @@ export const IngredientType = objectType({
           return `${description} — ${countStr}`;
         }
         return countStr;
+      },
+    });
+
+    t.field('typeOf', {
+      type: nullable('Ingredient'),
+      resolve: async (ingredient, _args, { loaders }) => {
+        if (!ingredient.type_of_ingredient_id) {
+          return null;
+        }
+        return loaders.ingredientById.load(ingredient.type_of_ingredient_id);
       },
     });
 
