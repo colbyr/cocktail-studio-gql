@@ -109,6 +109,7 @@ export const RecipeLoaders = new ScopedDataLoaders(({ sql, userId }) => {
             related_ingredients.user_id = ingredient.user_id
             AND related_ingredients.id = ingredient.type_of_ingredient_id
           )
+          WHERE ingreient.deleted_at IS NULL
         )
 
         SELECT

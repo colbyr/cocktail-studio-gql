@@ -29,6 +29,7 @@ export const RecipeIngredientLoaders = new ScopedDataLoaders(
               ingredient.id
             FROM ingredient
             JOIN related_ingredients ON (ingredient.type_of_ingredient_id = related_ingredients.id)
+            WHERE ingredient.deleted_at IS NULL
           )
 
           SELECT
