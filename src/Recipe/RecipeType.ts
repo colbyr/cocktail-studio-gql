@@ -22,10 +22,6 @@ export const RecipeType = objectType({
       },
     });
 
-    t.boolean('isDeleted', {
-      resolve: (recipe) => !!recipe.deleted_at,
-    });
-
     t.string('name');
 
     t.field('recipeIngredients', {
