@@ -22,9 +22,7 @@ export const AiIngredientLoaders = new ScopedDataLoaders(({ openai, sql }) => {
         AND gpt35_cache.subject_vector = to_tsvector(subject)
       )
     `;
-    // console.info(await query.describe());
     const rows = await query;
-    console.info(rows);
     return zParseById({
       ZType: ZIngredientAiDescriptionCache.nullable(),
       id: 'subject',
@@ -52,11 +50,14 @@ export const AiIngredientLoaders = new ScopedDataLoaders(({ openai, sql }) => {
             role: 'system',
             content: 'You are a knowledgable robot bartender.',
           },
-          { role: 'user', content: `Briefly, what is ${ingredientName}?` },
+          {
+            role: 'user',
+            content: `In one sentence, what is ${ingredientName}?`,
+          },
         ],
         model: 'gpt-3.5-turbo',
         temperature: 1,
-        max_tokens: 96,
+        max_tokens: 64,
         top_p: 1,
         frequency_penalty: 0,
         presence_penalty: 0,
