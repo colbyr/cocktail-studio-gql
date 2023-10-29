@@ -62,7 +62,6 @@ export const AiIngredientLoaders = new ScopedDataLoaders(({ openai, sql }) => {
         frequency_penalty: 0,
         presence_penalty: 0,
       });
-      console.info(JSON.stringify(completion, null, 2));
       await sql`
         INSERT INTO gpt35_cache (query_type, subject_vector, completion)
         VALUES ('ingredient_description', to_tsvector(${ingredientName}), ${sql.json(

@@ -27,7 +27,6 @@ export async function mergeAnonymousUser(
   const tablesToMerge = ['ingredient', 'recipe', 'recipe_ingredient'];
   await Promise.all(
     tablesToMerge.map(async (tableName) => {
-      console.info('update', tableName);
       await sql`
         UPDATE ${sql(tableName)} SET user_id = ${user.id}
         FROM "user"
