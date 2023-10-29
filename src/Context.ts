@@ -7,14 +7,17 @@ import { Token, verifyToken } from './lib/TokenSchema';
 import * as loaderDefinitions from './loaders';
 import { ScopedDataLoaders } from './lib/ScopedDataLoaders';
 import DataLoader from 'dataloader';
+import OpenAI from 'openai';
 
 export type ContextAuthenticated = Readonly<{
+  openai: OpenAI;
   sql: Sql;
   token: Token;
   userId: string;
 }>;
 
 export type ContextUnauthenticated = Readonly<{
+  openai: OpenAI;
   sql: Sql;
   token: null;
   userId: null;
@@ -56,6 +59,11 @@ export type ContextWithLoaders = Context & {
   loaders: LoaderInstances;
 };
 
+const openai = new OpenAI({
+  apiKey: process.env.COCKTAIL_STUDIO_OPENAI_API_KEY,
+  organization: process.env.COCKTAIL_STUDIO_OPENAPI_ORGANIZATION,
+});
+
 const sql = postgres({
   user: Env.PG_USER,
   password: Env.PG_PASSWORD,
@@ -76,12 +84,10 @@ export const context: ContextFunction<
     operationName?: string;
     // @ts-expect-error
   } = req.body;
-  if (body.operationName === 'Login') {
-    console.info(body);
-  }
 
   if (!encodedToken) {
     const noAuthContext: ContextUnauthenticated = {
+      openai,
       sql,
       token: null,
       userId: null,
@@ -95,6 +101,7 @@ export const context: ContextFunction<
   const token = verifyToken(encodedToken);
 
   const authedContext: ContextAuthenticated = {
+    openai,
     sql,
     token: token,
     userId: token.userId ?? '',

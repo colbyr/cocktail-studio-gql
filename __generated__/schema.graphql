@@ -15,6 +15,7 @@ enum AmountScale {
 type Ingredient {
   description: String!
   directions: String!
+  generatedDescription: String!
   id: ID!
   name: String!
   recipeIngredients: [RecipeIngredient!]!

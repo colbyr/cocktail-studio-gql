@@ -22,6 +22,13 @@ export const IngredientType = objectType({
       },
     });
 
+    t.string('generatedDescription', {
+      resolve: async ({ name }, _args, { loaders }) => {
+        const aiDescription = await loaders.ingredientAiDescription.load(name);
+        return aiDescription.content ?? '';
+      },
+    });
+
     t.string('name');
 
     t.field('recipeIngredients', {
