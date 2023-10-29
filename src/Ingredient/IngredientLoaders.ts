@@ -26,14 +26,41 @@ export const IngredientLoaders = new ScopedDataLoaders(({ sql, userId }) => {
   const ingredientByTypeOfId = new DataLoader<ID, Ingredient[]>(
     async (ingredientIds) => {
       return zParseGroupById({
-        id: 'type_of_ingredient_id',
+        id: 'lookup_ingredient_id',
         ZType: ZIngredient,
         requestedIds: ingredientIds,
         rows: await sql`
-          SELECT *
-          FROM ingredient
-          WHERE user_id = ${userId}
-            AND type_of_ingredient_id IN ${sql(ingredientIds)}
+          WITH RECURSIVE all_ingredient_types AS (
+            SELECT
+              ingredient.type_of_ingredient_id as lookup_ingredient_id,
+              ingredient.id,
+              ingredient.user_id
+            FROM ingredient
+            WHERE user_id = ${userId}
+              AND type_of_ingredient_id IN (${sql(ingredientIds)})
+
+            UNION
+
+            SELECT
+              all_ingredient_types.lookup_ingredient_id,
+              ingredient.id,
+              all_ingredient_types.user_id
+            FROM ingredient
+            INNER JOIN all_ingredient_types ON (
+              all_ingredient_types.user_id = ingredient.user_id
+              AND ingredient.type_of_ingredient_id = all_ingredient_types.id
+            )
+          )
+
+          SELECT
+            all_ingredient_types.lookup_ingredient_id,
+            ingredient.*
+          FROM all_ingredient_types
+          JOIN ingredient ON (
+            ingredient.user_id = all_ingredient_types.user_id
+            AND ingredient.id = all_ingredient_types.id
+          )
+          ORDER BY ingredient.name ASC, type_of_ingredient_id
         `,
       });
     },
