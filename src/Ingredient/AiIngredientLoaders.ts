@@ -52,7 +52,7 @@ export const AiIngredientLoaders = new ScopedDataLoaders(({ openai, sql }) => {
           },
           {
             role: 'user',
-            content: `In one sentence, what is ${ingredientName}?`,
+            content: `"${ingredientName}" is an ingredient in a cocktail recipe. Describe it in one sentence.`,
           },
         ],
         model: 'gpt-3.5-turbo',
