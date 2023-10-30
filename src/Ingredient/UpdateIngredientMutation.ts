@@ -39,18 +39,18 @@ export const UpdateIngredientMutation = mutationField('updateIngredient', {
         : [];
       const [ingredient] = z.array(ZIngredient).parse(
         await sql`
-        UPDATE ingredient
-        SET ${sql({
-          name: name.trim(),
-          description: description ?? '',
-          directions: directions ?? '',
-          type_of_ingredient_id: typeOfIngredient?.id ?? null,
-          updated_at: new Date().toISOString(),
-        })}
-        WHERE id = ${ingredientId}
-          AND user_id = ${userId}
-        RETURNING *
-      `,
+          UPDATE ingredient
+          SET ${sql({
+            name: name.trim(),
+            description: description ?? '',
+            directions: directions ?? '',
+            type_of_ingredient_id: typeOfIngredient?.id ?? null,
+            updated_at: new Date().toISOString(),
+          })}
+          WHERE id = ${ingredientId}
+            AND user_id = ${userId}
+          RETURNING *
+        `,
       );
       return ingredient;
     });

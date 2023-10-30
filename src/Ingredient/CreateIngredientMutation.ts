@@ -36,7 +36,6 @@ export const CreateIngredientMutation = mutationField('createIngredient', {
               AND name_vector = tsvector_name(${typeOfIngredientName})
           `
         : [];
-      console.info(typeOfIngredient);
       const [ingredient] = z.array(ZIngredient).parse(
         await sql`
           INSERT INTO ingredient
