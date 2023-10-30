@@ -83,6 +83,16 @@ export const IngredientType = objectType({
       },
     });
 
+    t.field('typeOfPath', {
+      type: list('Ingredient'),
+      resolve: async (ingredient, _args, { loaders }) => {
+        if (!ingredient.type_of_ingredient_id) {
+          return [];
+        }
+        return loaders.ingredientTypePathById.load(ingredient.id);
+      },
+    });
+
     t.field('types', {
       type: list('Ingredient'),
       resolve: async ({ id: ingredient_id, user_id }, _args, { loaders }) => {

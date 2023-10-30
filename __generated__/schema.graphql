@@ -23,6 +23,7 @@ type Ingredient {
   recipesCount: Int!
   summary: String!
   typeOf: Ingredient
+  typeOfPath: [Ingredient!]!
   types: [Ingredient!]!
   uri: String!
 }
