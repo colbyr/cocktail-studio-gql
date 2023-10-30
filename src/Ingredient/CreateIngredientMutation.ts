@@ -28,12 +28,12 @@ export const CreateIngredientMutation = mutationField('createIngredient', {
           ON CONFLICT DO NOTHING
         `;
       }
-      const [typeOfIngredient] = typeOfIngredientName
+      const [typeOfIngredient] = typeOfIngredientName?.trim()
         ? await sql`
             SELECT id
             FROM ingredient
             WHERE user_id = ${userId}
-              AND name_vector = tsvector_name(${typeOfIngredientName})
+              AND name_vector = tsvector_name(${typeOfIngredientName.trim()})
           `
         : [];
       const [ingredient] = z.array(ZIngredient).parse(
