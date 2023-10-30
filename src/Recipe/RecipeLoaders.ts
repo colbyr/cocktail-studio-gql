@@ -143,6 +143,7 @@ export const RecipeLoaders = new ScopedDataLoaders(({ sql, userId }) => {
         SELECT *
         FROM recipe
         WHERE user_id IN ${sql(userIds)}
+        ORDER BY recipe.name ASC
       `,
     });
     for (const group of results) {

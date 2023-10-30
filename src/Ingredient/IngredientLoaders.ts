@@ -124,6 +124,7 @@ export const IngredientLoaders = new ScopedDataLoaders(({ sql, userId }) => {
           SELECT *
           FROM ingredient
           WHERE user_id IN ${sql(userIds)}
+          ORDER BY ingredient.name ASC
         `,
       });
       for (const group of results) {
