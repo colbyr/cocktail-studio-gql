@@ -226,6 +226,7 @@ export interface NexusGenArgTypes {
       directions?: string | null; // String
       ingredientId: string; // ID!
       name: string; // String!
+      typeOfIngredientName?: string | null; // String
     }
     updateRecipe: { // args
       description?: string | null; // String

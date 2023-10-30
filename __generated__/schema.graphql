@@ -46,7 +46,7 @@ type Mutation {
   login(email: String!, password: String!): LoginResult!
   loginAnonymous: LoginResult!
   signup(email: String!, password: String!): LoginResult!
-  updateIngredient(description: String, directions: String, ingredientId: ID!, name: String!): Ingredient!
+  updateIngredient(description: String, directions: String, ingredientId: ID!, name: String!, typeOfIngredientName: String): Ingredient!
   updateRecipe(description: String, directions: String, name: String!, recipeId: ID!, recipeIngredients: [RecipeIngredientInput!]!): Recipe!
 }
 
