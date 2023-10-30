@@ -10,9 +10,33 @@ export const CreateIngredientMutation = mutationField('createIngredient', {
     name: stringArg(),
     description: nullable(stringArg()),
     directions: nullable(stringArg()),
+    typeOfIngredientName: nullable(stringArg()),
   },
-  resolve: async (_, { name, description, directions }, { sql, userId }) => {
+  resolve: async (
+    _,
+    { name, description, directions, typeOfIngredientName },
+    { sql, userId },
+  ) => {
     return sql.begin(async (sql) => {
+      if (typeOfIngredientName) {
+        await sql`
+          INSERT INTO ingredient
+          ${sql({
+            name: typeOfIngredientName.trim(),
+            user_id: userId,
+          })}
+          ON CONFLICT DO NOTHING
+        `;
+      }
+      const [typeOfIngredient] = typeOfIngredientName
+        ? await sql`
+            SELECT id
+            FROM ingredient
+            WHERE user_id = ${userId}
+              AND name_vector = tsvector_name(${typeOfIngredientName})
+          `
+        : [];
+      console.info(typeOfIngredient);
       const [ingredient] = z.array(ZIngredient).parse(
         await sql`
           INSERT INTO ingredient
@@ -20,6 +44,7 @@ export const CreateIngredientMutation = mutationField('createIngredient', {
             name: name.trim(),
             description: description ?? '',
             directions: directions ?? '',
+            type_of_ingredient_id: typeOfIngredient?.id ?? null,
             user_id: userId,
           })}
           RETURNING *

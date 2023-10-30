@@ -199,6 +199,7 @@ export interface NexusGenArgTypes {
       description?: string | null; // String
       directions?: string | null; // String
       name: string; // String!
+      typeOfIngredientName?: string | null; // String
     }
     createRecipe: { // args
       description?: string | null; // String
