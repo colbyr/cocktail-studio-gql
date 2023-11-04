@@ -50,6 +50,17 @@ export interface NexusGenObjects {
   Mutation: {};
   Query: {};
   Recipe: Recipe;
+  RecipeImport: { // root type
+    description?: string | null; // String
+    directions?: string | null; // String
+    name: string; // String!
+    recipeIngredients: NexusGenRootTypes['RecipeImportIngredient'][]; // [RecipeImportIngredient!]!
+  }
+  RecipeImportIngredient: { // root type
+    amount: number; // Float!
+    amountScale: NexusGenEnums['AmountScale']; // AmountScale!
+    ingredientName: string; // String!
+  }
   RecipeIngredient: RecipeIngredient;
   User: User;
 }
@@ -93,6 +104,7 @@ export interface NexusGenFieldTypes {
     createRecipe: NexusGenRootTypes['Recipe']; // Recipe!
     deleteIngredients: string[]; // [ID!]!
     deleteRecipes: string[]; // [ID!]!
+    importRecipe: NexusGenRootTypes['RecipeImport']; // RecipeImport!
     login: NexusGenRootTypes['LoginResult']; // LoginResult!
     loginAnonymous: NexusGenRootTypes['LoginResult']; // LoginResult!
     signup: NexusGenRootTypes['LoginResult']; // LoginResult!
@@ -110,6 +122,17 @@ export interface NexusGenFieldTypes {
     recipeIngredients: NexusGenRootTypes['RecipeIngredient'][]; // [RecipeIngredient!]!
     summary: string; // String!
     uri: string; // String!
+  }
+  RecipeImport: { // field return type
+    description: string | null; // String
+    directions: string | null; // String
+    name: string; // String!
+    recipeIngredients: NexusGenRootTypes['RecipeImportIngredient'][]; // [RecipeImportIngredient!]!
+  }
+  RecipeImportIngredient: { // field return type
+    amount: number; // Float!
+    amountScale: NexusGenEnums['AmountScale']; // AmountScale!
+    ingredientName: string; // String!
   }
   RecipeIngredient: { // field return type
     amount: number; // Float!
@@ -158,6 +181,7 @@ export interface NexusGenFieldTypeNames {
     createRecipe: 'Recipe'
     deleteIngredients: 'ID'
     deleteRecipes: 'ID'
+    importRecipe: 'RecipeImport'
     login: 'LoginResult'
     loginAnonymous: 'LoginResult'
     signup: 'LoginResult'
@@ -175,6 +199,17 @@ export interface NexusGenFieldTypeNames {
     recipeIngredients: 'RecipeIngredient'
     summary: 'String'
     uri: 'String'
+  }
+  RecipeImport: { // field return type name
+    description: 'String'
+    directions: 'String'
+    name: 'String'
+    recipeIngredients: 'RecipeImportIngredient'
+  }
+  RecipeImportIngredient: { // field return type name
+    amount: 'Float'
+    amountScale: 'AmountScale'
+    ingredientName: 'String'
   }
   RecipeIngredient: { // field return type name
     amount: 'Float'
@@ -214,6 +249,9 @@ export interface NexusGenArgTypes {
     }
     deleteRecipes: { // args
       recipeIds: string[]; // [ID!]!
+    }
+    importRecipe: { // args
+      recipeText: string; // String!
     }
     login: { // args
       email: string; // String!
