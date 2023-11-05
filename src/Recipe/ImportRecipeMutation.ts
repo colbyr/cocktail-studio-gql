@@ -3,6 +3,7 @@ import { list, mutationField, objectType, stringArg } from 'nexus';
 import { z } from 'zod';
 import { ZAmountScale } from '../AmountScale/AmountScale';
 import { ChatCompletion, ChatCompletionMessage } from 'openai/resources';
+import { requireAuth } from '../lib/Authorize';
 
 const options = {
   model: 'gpt-4',
@@ -50,8 +51,10 @@ const ZRecipeImportSchema = z.object({
 });
 
 export const ImportRecipeMutation = mutationField('importRecipe', {
-  authorize: (_root, _args, { token }) => {
-    return token?.anonymous !== true;
+  authorize: (root, args, context) => {
+    return (
+      requireAuth(root, args, context) && context.token?.anonymous !== true
+    );
   },
   type: objectType({
     name: 'RecipeImport',
