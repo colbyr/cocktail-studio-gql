@@ -23,11 +23,11 @@ export const SignupMutation = mutationField('signup', {
 
     const user = await sql.begin(async (sql) => {
       const [anonUserRow] = await sql`
-      SELECT id, email, password_hash, password_salt
-      FROM "user"
-      WHERE id = ${token.userId}
-        AND email IS NULL
-    `;
+        SELECT id, email, password_hash, password_salt
+        FROM "user"
+        WHERE id = ${token.userId}
+          AND email IS NULL
+      `;
 
       if (!anonUserRow) {
         throw new Error('exipired account');
