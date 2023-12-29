@@ -105,6 +105,7 @@ export interface NexusGenFieldTypes {
     deleteIngredients: string[]; // [ID!]!
     deleteRecipes: string[]; // [ID!]!
     importRecipe: NexusGenRootTypes['RecipeImport']; // RecipeImport!
+    importSharedRecipe: NexusGenRootTypes['RecipeImport']; // RecipeImport!
     login: NexusGenRootTypes['LoginResult']; // LoginResult!
     loginAnonymous: NexusGenRootTypes['LoginResult']; // LoginResult!
     signup: NexusGenRootTypes['LoginResult']; // LoginResult!
@@ -182,6 +183,7 @@ export interface NexusGenFieldTypeNames {
     deleteIngredients: 'ID'
     deleteRecipes: 'ID'
     importRecipe: 'RecipeImport'
+    importSharedRecipe: 'RecipeImport'
     login: 'LoginResult'
     loginAnonymous: 'LoginResult'
     signup: 'LoginResult'
@@ -252,6 +254,9 @@ export interface NexusGenArgTypes {
     }
     importRecipe: { // args
       recipeText: string; // String!
+    }
+    importSharedRecipe: { // args
+      recipeUrl: string; // String!
     }
     login: { // args
       email: string; // String!

@@ -4,6 +4,7 @@ import { z } from 'zod';
 import { ZAmountScale } from '../AmountScale/AmountScale';
 import { ChatCompletion, ChatCompletionMessage } from 'openai/resources';
 import { requireAuth } from '../lib/Authorize';
+import { ZRecipeImport } from './RecipeImport';
 
 const options = {
   model: 'gpt-4',
@@ -37,48 +38,14 @@ const systemMessage: ChatCompletionMessage = {
   `,
 };
 
-const ZRecipeImportSchema = z.object({
-  name: z.string(),
-  description: z.string(),
-  recipeIngredients: z.array(
-    z.object({
-      ingredientName: z.string(),
-      note: z.string().optional(),
-      amount: z.number(),
-      amountScale: ZAmountScale,
-    }),
-  ),
-});
-
 export const ImportRecipeMutation = mutationField('importRecipe', {
   authorize: (root, args, context) => {
     return (
       requireAuth(root, args, context) && context.token?.anonymous !== true
     );
   },
-  type: objectType({
-    name: 'RecipeImport',
-    definition(t) {
-      t.string('name');
-      t.nullable.string('description');
-      t.nullable.string('directions');
-      t.field('recipeIngredients', {
-        type: list(
-          objectType({
-            name: 'RecipeImportIngredient',
-            definition(t) {
-              t.float('amount');
-              t.field({
-                name: 'amountScale',
-                type: 'AmountScale',
-              });
-              t.string('ingredientName');
-            },
-          }),
-        ),
-      });
-    },
-  }),
+  description: 'Import a recipe from arbitrary text',
+  type: 'RecipeImport',
   args: {
     recipeText: stringArg(),
   },
@@ -102,6 +69,6 @@ export const ImportRecipeMutation = mutationField('importRecipe', {
     const jsonResult = JSON.parse(
       completion.choices[0]?.message.content ?? '{}',
     );
-    return ZRecipeImportSchema.parse(jsonResult);
+    return ZRecipeImport.parse(jsonResult);
   },
 });

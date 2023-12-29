@@ -15,7 +15,9 @@ export * from './Query/MeQueryField';
 
 export * from './Recipe/CreateRecipeMutation';
 export * from './Recipe/DeleteRecipeMutation';
-export * from './Recipe/ImportRecipeMutation';
+export * from './RecipeImport/ImportRecipeMutation';
+export * from './RecipeImport/ImportSharedRecipeMutation';
+export * from './RecipeImport/RecipeImportType';
 export * from './Recipe/RecipeType';
 export * from './Recipe/UpdateRecipeMutation';
 

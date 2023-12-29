@@ -44,7 +44,12 @@ type Mutation {
   createRecipe(description: String, directions: String, name: String!, recipeIngredients: [RecipeIngredientInput!]!): Recipe!
   deleteIngredients(ingredientIds: [ID!]!): [ID!]!
   deleteRecipes(recipeIds: [ID!]!): [ID!]!
+
+  """Import a recipe from arbitrary text"""
   importRecipe(recipeText: String!): RecipeImport!
+
+  """Import recipe a from a cocktailstudio share url"""
+  importSharedRecipe(recipeUrl: String!): RecipeImport!
   login(email: String!, password: String!): LoginResult!
   loginAnonymous: LoginResult!
   signup(email: String!, password: String!): LoginResult!
