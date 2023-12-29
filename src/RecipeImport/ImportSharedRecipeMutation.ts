@@ -13,11 +13,11 @@ export const ImportSharedRecipeMutation = mutationField('importSharedRecipe', {
     }
     const pathname = recipeUrl.replace('https://www.cocktailstudio.app', '');
     const uri = decodeURI(pathname);
-    const [, type, base64] = uri.split('/');
+    const [, type, ...base64Segments] = uri.split('/');
     if (type !== 'recipe') {
       throw new Error('Invalid url');
     }
-    const binString = atob(decodeURIComponent(base64));
+    const binString = atob(decodeURIComponent(base64Segments.join('')));
     const bytes = Uint8Array.from(binString, (m) => m.codePointAt(0)!);
     const jsonString = new TextDecoder().decode(bytes);
     const jsonResult = JSON.parse(jsonString);
