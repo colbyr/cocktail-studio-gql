@@ -27,7 +27,7 @@ export interface NexusGenInputs {
 }
 
 export interface NexusGenEnums {
-  AmountScale: "dash" | "drop" | "floz" | "g" | "mL" | "one" | "oz"
+  AmountScale: "L" | "cup" | "dash" | "drop" | "floz" | "g" | "gal" | "kg" | "lb" | "mL" | "one" | "oz" | "pt" | "qt" | "tbsp" | "tsp"
 }
 
 export interface NexusGenScalars {

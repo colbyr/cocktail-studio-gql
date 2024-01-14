@@ -3,13 +3,22 @@
 
 
 enum AmountScale {
+  L
+  cup
   dash
   drop
   floz
   g
+  gal
+  kg
+  lb
   mL
   one
   oz
+  pt
+  qt
+  tbsp
+  tsp
 }
 
 type Ingredient {
